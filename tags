@@ -1,0 +1,45 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AIR_DRAG	main.cpp	21;"	d	file:
+BOTTOM_HEIGHT	main.cpp	26;"	d	file:
+Body	main.cpp	/^} Body;$/;"	t	typeref:struct:__anon1	file:
+CFILES	Makefile	/^CFILES = main.cpp$/;"	m
+COMPILER	Makefile	/^COMPILER = g++$/;"	m
+CONTROL	main.cpp	23;"	d	file:
+CROUCH_HEIGHT	main.cpp	24;"	d	file:
+CROUCH_SPEED	main.cpp	10;"	d	file:
+DrawLevel	main.cpp	/^void DrawLevel(int width, int height, Vector3* terrain, int arrSize) {$/;"	f
+FRICTION	main.cpp	19;"	d	file:
+GRAVITY	main.cpp	8;"	d	file:
+GenerateTerrainArray	main.cpp	/^Vector3* GenerateTerrainArray(int arrSize, int width, int height) {$/;"	f
+GetRandom	main.cpp	/^float GetRandom(unsigned int scalar) {$/;"	f
+JUMP_FORCE	main.cpp	11;"	d	file:
+LD_FLAGS	Makefile	/^LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11$/;"	m
+MAX_ACCEL	main.cpp	12;"	d	file:
+MAX_SPEED	main.cpp	9;"	d	file:
+NORMALIZE_INPUT	main.cpp	28;"	d	file:
+OPTIONS	Makefile	/^OPTIONS = -Wall -g -fsanitize=address,undefined$/;"	m
+OPTIONS_RELEASE	Makefile	/^OPTIONS_RELEASE = -Wall -s -Ofast -march=native$/;"	m
+PROGRAM	Makefile	/^PROGRAM = main.out$/;"	m
+STAND_HEIGHT	main.cpp	25;"	d	file:
+UpdateBody	main.cpp	/^void UpdateBody(Body* body, float rot, char side, char forward, $/;"	f
+UpdateCameraFPS	main.cpp	/^void UpdateCameraFPS(Camera* camera) {$/;"	f
+dir	main.cpp	/^  Vector3 dir;$/;"	m	struct:__anon1	file:
+headLerp	main.cpp	/^static float headLerp = STAND_HEIGHT;$/;"	v	file:
+headTimer	main.cpp	/^static float headTimer = 0.0f;$/;"	v	file:
+isGrounded	main.cpp	/^  bool isGrounded;$/;"	m	struct:__anon1	file:
+lean	main.cpp	/^static Vector2 lean = { 0 };$/;"	v	file:
+lookRotation	main.cpp	/^static Vector2 lookRotation = { 0 };$/;"	v	file:
+main	main.cpp	/^int main(void) {$/;"	f
+null	main.cpp	16;"	d	file:
+player	main.cpp	/^static Body player = { 0 };$/;"	v	file:
+position	main.cpp	/^  Vector3 position;$/;"	m	struct:__anon1	file:
+printvec3	main.cpp	/^void printvec3(Vector3 vec) {$/;"	f
+sensitivity	main.cpp	/^static Vector2 sensitivity = { 0.001f, 0.001f };$/;"	v	file:
+uint	main.cpp	15;"	d	file:
+velocity	main.cpp	/^  Vector3 velocity;$/;"	m	struct:__anon1	file:
+walkLerp	main.cpp	/^static float walkLerp = 0.0f;$/;"	v	file:
