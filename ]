@@ -1,0 +1,76 @@
+set nocompatible
+
+call plug#begin()
+Plug 'rakr/vim-one'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'sheerun/vim-polyglot'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'dense-analysis/ale'
+call plug#end()
+
+" editor
+syntax enable
+set number
+set numberwidth=8
+set relativenumber
+set colorcolumn=80
+set cursorline
+set nowrap
+set scrolloff=10
+set sidescrolloff=10
+set showmatch
+set cmdheight=1
+set showmode
+set concealcursor=""
+set lazyredraw
+set synmaxcol=300
+set mouse=a
+
+" colors
+set termguicolors
+set background=light
+colorscheme lunaperche
+set syntax=off
+
+" files
+" save undo info
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undodir")
+    call mkdir($HOME."/.vim/undodir", "", 0700)
+endif
+set undodir=~/.vim/undodir
+set undofile
+set noswapfile
+
+" splits
+set splitbelow
+set splitright
+
+" tabs
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set smartindent
+set autoindent
+
+" searches
+set ignorecase
+set smartcase
+set nohlsearch
+set incsearch
+
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+let $FZF_DEFAULT_COMMAND = 'rg --no-ignore-parent --files'
+nnoremap <leader>f :Files <CR>
+nnoremap <leader>g :Tags <CR>
+nnoremap <leader>d :Lines <CR>

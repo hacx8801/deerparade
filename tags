@@ -12,17 +12,17 @@ COMPILER	Makefile	/^COMPILER = g++$/;"	m
 CONTROL	main.cpp	23;"	d	file:
 CROUCH_HEIGHT	main.cpp	24;"	d	file:
 CROUCH_SPEED	main.cpp	10;"	d	file:
-DrawLevel	main.cpp	/^void DrawLevel(int width, int height, Vector3* terrain, int arrSize) {$/;"	f
+DrawLevel	main.cpp	/^void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize) {$/;"	f
 FRICTION	main.cpp	19;"	d	file:
 GRAVITY	main.cpp	8;"	d	file:
-GenerateTerrainArray	main.cpp	/^Vector3* GenerateTerrainArray(int arrSize, int width, int height) {$/;"	f
+GenerateTerrainArray	main.cpp	/^void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height) {$/;"	f
 GetRandom	main.cpp	/^float GetRandom(unsigned int scalar) {$/;"	f
 JUMP_FORCE	main.cpp	11;"	d	file:
 LD_FLAGS	Makefile	/^LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11$/;"	m
 MAX_ACCEL	main.cpp	12;"	d	file:
 MAX_SPEED	main.cpp	9;"	d	file:
 NORMALIZE_INPUT	main.cpp	28;"	d	file:
-OPTIONS	Makefile	/^OPTIONS = -Wall -g -fsanitize=address,undefined$/;"	m
+OPTIONS	Makefile	/^OPTIONS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \\$/;"	m
 OPTIONS_RELEASE	Makefile	/^OPTIONS_RELEASE = -Wall -s -Ofast -march=native$/;"	m
 PROGRAM	Makefile	/^PROGRAM = main.out$/;"	m
 STAND_HEIGHT	main.cpp	25;"	d	file:
