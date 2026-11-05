@@ -1,8 +1,8 @@
 #include <raylib.h>
 #include <raymath.h>
-#include <cstdlib>
 #include <ctime>
-#include <cstdio>
+#include <iostream>
+#include <vector>
 
 // movement constraints
 #define GRAVITY         32.0f
@@ -49,9 +49,9 @@ static Vector2 lean = { 0 };
 static void UpdateCameraFPS(Camera* camera);
 static void UpdateBody(Body* body, float rot, char side, char forward, 
     bool jumpPressed, bool crouchHold);
-void DrawLevel(int width, int height, Vector3* terrain, int arrSize);
+void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize);
 float GetRandom(unsigned int scalar);
-static Vector3* GenerateTerrainArray(int extnet, int width, int height);
+void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height);
 
 int main(void) {
   // initialize data
@@ -60,7 +60,7 @@ int main(void) {
 
 
   // seed for random terrain height
-  srand(time(NULL));
+  srand((uint)time(NULL));
 
   InitWindow(screenWidth, screenHeight, "DEER/parade");
   // initialize camera variables to pass to UpdateCameraFPS()
@@ -78,12 +78,13 @@ int main(void) {
 
   SetTargetFPS(60);
   
-  float ratio = 6.0/10;
+  float ratio = 6.0f/10;
   uint width = 100;
   uint height = 100;
-  uint arrSize = (int)floor(width * ratio);
+  uint arrSize = (int)floor((float)width * ratio);
 
-  Vector3* terrain = GenerateTerrainArray(arrSize, width, height);
+  std::vector<Vector3> terrain;
+  GenerateTerrainArray(terrain, arrSize, width, height);
 
   // main game loop
   while(!WindowShouldClose()) {
@@ -265,29 +266,25 @@ void UpdateCameraFPS(Camera* camera) {
 
 }
 
-Vector3* GenerateTerrainArray(int arrSize, int width, int height) {
+void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height) {
 
-  Vector3* arr = NULL;
-  arr = (Vector3*) malloc(arrSize*arrSize * sizeof(Vector3));
+  arr = std::vector<Vector3>();
 
   for (int i = 0; i < arrSize; i++) {
     float ei = (float)i / (float)arrSize;
 
     for (int j = 0; j < arrSize; j++) {
       float ej = (float)j / (float)arrSize;
-      printf("ej is %f\n", ej);
-      float w = (ej - 0.5) * width;
-      float h = (ei - 0.5) * height;
-      arr[i*arrSize+ j] = (Vector3) { w, GetRandom(1), h };
+      float w = (ej - 0.5f) * (float)width;
+      float h = (ei - 0.5f) * (float)height;
+      arr.push_back({ w, GetRandom(1), h });
     }
   }
-
-  return arr;
 }
 
 float GetRandom(unsigned int scalar) {
-  double scale = (double)rand() / ((double)RAND_MAX + 1.0);
-  return (scale - 0.5) + scalar;
+  float scale = (float)rand() / ((float)RAND_MAX + 1.0f);
+  return (scale - 0.5f) + (float)scalar;
 
 }
 
@@ -295,8 +292,8 @@ void printvec3(Vector3 vec) {
   printf("\t(%f, %f, %f) ", vec.x, vec.y, vec.z);
 }
 
-void DrawLevel(int width, int height, Vector3* terrain, int arrSize) {
-  const float tileSize = 5.0f;
+void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize) {
+  /* const float tileSize = 5.0f; */
   const Color green1 = (Color) { 0, 150, 0, 255 };
   const Color green2 = (Color) { 0, 120, 0, 255 };
 
