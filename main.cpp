@@ -3,6 +3,8 @@
 #include <ctime>
 #include <iostream>
 #include <vector>
+#include "World.hpp"
+#include "Ground.hpp"
 
 // movement constraints
 #define GRAVITY         32.0f
@@ -49,7 +51,7 @@ static Vector2 lean = { 0 };
 static void UpdateCameraFPS(Camera* camera);
 static void UpdateBody(Body* body, float rot, char side, char forward, 
     bool jumpPressed, bool crouchHold);
-void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize);
+void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize);
 float GetRandom(unsigned int scalar);
 void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height);
 
@@ -72,6 +74,8 @@ int main(void) {
     player.position.y + (BOTTOM_HEIGHT + headLerp),
     player.position.z,
   };
+
+  Ground ground = Ground("terrain_shader_grass_vs.glsl", "terrain_shader_grass_fs.glsl");
 
   UpdateCameraFPS(&camera);
   DisableCursor();
@@ -142,7 +146,8 @@ int main(void) {
 
       BeginMode3D(camera);
 
-        DrawLevel(width, height, terrain, arrSize);
+        DrawLevel(ground, width, height, terrain, arrSize);
+
       EndMode3D();
 
       // draw the info box
@@ -292,7 +297,7 @@ void printvec3(Vector3 vec) {
   printf("\t(%f, %f, %f) ", vec.x, vec.y, vec.z);
 }
 
-void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize) {
+void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize) {
   /* const float tileSize = 5.0f; */
   const Color green1 = (Color) { 0, 150, 0, 255 };
   const Color green2 = (Color) { 0, 120, 0, 255 };
@@ -313,13 +318,15 @@ void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize)
   /* } */
 
 
-  // terrain above floor tiles
-  for (int i = 0; i < arrSize-1; i++) {
-    for (int j = 0; j < arrSize-1; j++) {
-      DrawTriangle3D(terrain[arrSize*i+j], terrain[arrSize*(i+1)+(j+1)], terrain[arrSize*i+(j+1)], green1);
-      DrawTriangle3D(terrain[arrSize*i+j], terrain[arrSize*(i+1)+(j)], terrain[arrSize*(i+1)+(j+1)], green2);
-    }
-  }
+  /* // terrain above floor tiles */
+  /* for (int i = 0; i < arrSize-1; i++) { */
+  /*   for (int j = 0; j < arrSize-1; j++) { */
+  /*     DrawTriangle3D(terrain[arrSize*i+j], terrain[arrSize*(i+1)+(j+1)], terrain[arrSize*i+(j+1)], green1); */
+  /*     DrawTriangle3D(terrain[arrSize*i+j], terrain[arrSize*(i+1)+(j)], terrain[arrSize*(i+1)+(j+1)], green2); */
+  /*   } */
+  /* } */
+
+  ground.draw();
   
 
 }
