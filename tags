@@ -40,6 +40,7 @@ dir	main.cpp	/^  Vector3 dir;$/;"	m	struct:__anon1	file:
 draw	Ground.cpp	/^void Ground::draw() const {$/;"	f	class:Ground
 draw	World.cpp	/^void World::draw() const {$/;"	f	class:World
 drawPlaneHeights	Ground.cpp	/^void Ground::drawPlaneHeights(int width, int height, int numSamples) const {$/;"	f	class:Ground
+getHeightAt	Ground.cpp	/^float Ground::getHeightAt(const float xPosition, const float zPosition) {$/;"	f	class:Ground
 getPosition	Object.cpp	/^Vector3 Object::getPosition() const  {$/;"	f	class:Object
 getShader	Object.cpp	/^Shader Object::getShader() const {$/;"	f	class:Object
 headLerp	main.cpp	/^static float headLerp = STAND_HEIGHT;$/;"	v	file:
