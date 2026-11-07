@@ -21,12 +21,12 @@ void Ground::draw() const {
     /*     (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, */ 
     /*     (Color){ 255, 255, 255 }); */
 
-    DrawModelWires(planeModel, 
+    DrawModel(planeModel, 
         (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, 
         (Color){ 0, 0, 0 });
 
-  this->drawPlaneHeights(10, 10, 10);
   EndShaderMode();
+  this->drawPlaneHeights(10, 10, 10);
 }
 
 void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
@@ -48,11 +48,11 @@ void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
       
       Vector3 position = (Vector3) {j*sampleWidthX - width/2.0f, 0.0f,  i*sampleWidthZ - height/2.0f};
 
-      float height = planeHeights.at(i*(numSamples) + j) / 255.0f;
+      float height = planeHeights.at(i*(numSamples) + j);
 
-      Vector3 correction = (Vector3){sampleWidthX/2.0f, -1.0f, sampleWidthZ/2.0f};
+      Vector3 correction = (Vector3){sampleWidthX/2.0f, height/2.0 - 2, sampleWidthZ/2.0f};
 
-      DrawCube(Vector3Add(position, correction), sampleWidthX, height, sampleWidthZ, RED);
+      DrawCubeWires(Vector3Add(position, correction), sampleWidthX, height, sampleWidthZ, RED);
 
     }
   }
@@ -98,9 +98,24 @@ void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSample
 
       Color avgColor = (Color) { (unsigned char) red, (unsigned char) green, (unsigned char) blue, 255 };
 
-      this->planeHeights.push_back(avgColor.r*7);
+      this->planeHeights.push_back(avgColor.r*7 / 255.0f);
 
     }
   }
   
+}
+
+float Ground::getHeightAt(const float xPosition, const float zPosition) {
+      float x = xPosition + 25;
+      float z = zPosition + 25;
+
+      float convFac = 10.0/ 50.0;
+      x *= convFac;
+      z *= convFac;
+
+
+      /* std::cout << "x pos: " << xPosition << " z pos: " << xPosition << std::endl; */
+
+      float height = planeHeights.at((int)z*(10) + (int)x);
+      return height;
 }

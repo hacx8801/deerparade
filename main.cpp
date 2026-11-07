@@ -50,7 +50,7 @@ static Vector2 lean = { 0 };
 // module function delcarations 
 static void UpdateCameraFPS(Camera* camera);
 static void UpdateBody(Body* body, float rot, char side, char forward, 
-    bool jumpPressed, bool crouchHold);
+    bool jumpPressed, bool crouchHold, float floorHeight);
 void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize);
 float GetRandom(unsigned int scalar);
 void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height);
@@ -99,12 +99,14 @@ int main(void) {
     lookRotation.x -= mouseDelta.x * sensitivity.x;
     lookRotation.y += mouseDelta.y * sensitivity.y;
 
+    float height = 0;
+    height = ground.getHeightAt(player.position.x, player.position.z);
     // get inputs
     char sideway = (IsKeyDown(KEY_D) - IsKeyDown(KEY_A));
     char forward = (IsKeyDown(KEY_W) - IsKeyDown(KEY_S));
     bool crouching = IsKeyDown(KEY_LEFT_CONTROL);
     UpdateBody(&player, lookRotation.x, sideway, forward, 
-        IsKeyPressed(KEY_SPACE), crouching);
+        IsKeyPressed(KEY_SPACE), crouching, height);
 
     float delta = GetFrameTime();
 
@@ -171,7 +173,7 @@ int main(void) {
 }
 
 void UpdateBody(Body* body, float rot, char side, char forward, 
-    bool jumpPressed, bool crouchHold) {
+    bool jumpPressed, bool crouchHold, float floorHeight) {
 
   Vector2 input = (Vector2) { (float)side, (float)-forward };
 
@@ -180,6 +182,10 @@ void UpdateBody(Body* body, float rot, char side, char forward,
 #endif
 
   float delta = GetFrameTime();
+
+  if (body->position.y > floorHeight) {
+    body->isGrounded = false;
+  }
   
   // if the body is in the air, account for gravity acceleration
   // m/s each frame is acceleration if (!body->isGrounded) body->velocity.y -= GRAVITY*delta;
@@ -221,8 +227,9 @@ void UpdateBody(Body* body, float rot, char side, char forward,
   body->position.y += body->velocity.y*delta;
   body->position.z += body->velocity.z*delta;
 
-  if (body->position.y <= 0.0f) {
-    body->position.y = 0.0f;
+  if (body->position.y <= floorHeight) {
+    body->position.y = floorHeight;
+    std::cout << "height is " << floorHeight << std::endl;
     body->velocity.y = 0.0f;
     body->isGrounded = true;
   }
