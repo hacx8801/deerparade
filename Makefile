@@ -18,7 +18,7 @@ OPTIONS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
 -fsanitize=address,undefined
 OPTIONS_RELEASE = -Wall -s -Ofast -march=native
 PROGRAM = main.out
-CFILES = main.cpp
+CFILES = main.cpp World.cpp Object.cpp Ground.cpp
 # HPPFILES = list.h
 LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 

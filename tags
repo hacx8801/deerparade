@@ -4,42 +4,66 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-AIR_DRAG	main.cpp	21;"	d	file:
-BOTTOM_HEIGHT	main.cpp	26;"	d	file:
+AIR_DRAG	main.cpp	23;"	d	file:
+BOTTOM_HEIGHT	main.cpp	28;"	d	file:
 Body	main.cpp	/^} Body;$/;"	t	typeref:struct:__anon1	file:
-CFILES	Makefile	/^CFILES = main.cpp$/;"	m
+CFILES	Makefile	/^CFILES = main.cpp World.cpp Object.cpp Ground.cpp$/;"	m
 COMPILER	Makefile	/^COMPILER = g++$/;"	m
-CONTROL	main.cpp	23;"	d	file:
-CROUCH_HEIGHT	main.cpp	24;"	d	file:
-CROUCH_SPEED	main.cpp	10;"	d	file:
-DrawLevel	main.cpp	/^void DrawLevel(int width, int height, std::vector<Vector3> terrain, int arrSize) {$/;"	f
-FRICTION	main.cpp	19;"	d	file:
-GRAVITY	main.cpp	8;"	d	file:
+CONTROL	main.cpp	25;"	d	file:
+CROUCH_HEIGHT	main.cpp	26;"	d	file:
+CROUCH_SPEED	main.cpp	12;"	d	file:
+DrawLevel	main.cpp	/^void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize) {$/;"	f
+FRICTION	main.cpp	21;"	d	file:
+GRAVITY	main.cpp	10;"	d	file:
+GROUND_H_	Ground.hpp	2;"	d
 GenerateTerrainArray	main.cpp	/^void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height) {$/;"	f
 GetRandom	main.cpp	/^float GetRandom(unsigned int scalar) {$/;"	f
-JUMP_FORCE	main.cpp	11;"	d	file:
+Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath) {$/;"	f	class:Ground
+Ground	Ground.hpp	/^class Ground : public Object {$/;"	c
+JUMP_FORCE	main.cpp	13;"	d	file:
 LD_FLAGS	Makefile	/^LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11$/;"	m
-MAX_ACCEL	main.cpp	12;"	d	file:
-MAX_SPEED	main.cpp	9;"	d	file:
-NORMALIZE_INPUT	main.cpp	28;"	d	file:
+MAX_ACCEL	main.cpp	14;"	d	file:
+MAX_SPEED	main.cpp	11;"	d	file:
+NORMALIZE_INPUT	main.cpp	30;"	d	file:
+OBJECT_H_	Object.hpp	2;"	d
 OPTIONS	Makefile	/^OPTIONS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \\$/;"	m
 OPTIONS_RELEASE	Makefile	/^OPTIONS_RELEASE = -Wall -s -Ofast -march=native$/;"	m
+Object	Object.hpp	/^class Object {$/;"	c
 PROGRAM	Makefile	/^PROGRAM = main.out$/;"	m
-STAND_HEIGHT	main.cpp	25;"	d	file:
+STAND_HEIGHT	main.cpp	27;"	d	file:
 UpdateBody	main.cpp	/^void UpdateBody(Body* body, float rot, char side, char forward, $/;"	f
 UpdateCameraFPS	main.cpp	/^void UpdateCameraFPS(Camera* camera) {$/;"	f
+WORLD_H_	World.hpp	2;"	d
+World	World.hpp	/^class World : public Object {$/;"	c
+add	World.cpp	/^void World::add (std::unique_ptr<Object> object) {$/;"	f	class:World
 dir	main.cpp	/^  Vector3 dir;$/;"	m	struct:__anon1	file:
+draw	Ground.cpp	/^void Ground::draw() const {$/;"	f	class:Ground
+draw	World.cpp	/^void World::draw() const {$/;"	f	class:World
+drawPlaneHeights	Ground.cpp	/^void Ground::drawPlaneHeights(int width, int height, int numSamples) const {$/;"	f	class:Ground
+getPosition	Object.cpp	/^Vector3 Object::getPosition() const  {$/;"	f	class:Object
+getShader	Object.cpp	/^Shader Object::getShader() const {$/;"	f	class:Object
 headLerp	main.cpp	/^static float headLerp = STAND_HEIGHT;$/;"	v	file:
 headTimer	main.cpp	/^static float headTimer = 0.0f;$/;"	v	file:
+initModel	Ground.cpp	/^void Ground::initModel(std::string vsPath, std::string fsPath, Image& perlinNoiseImage) {$/;"	f	class:Ground
+initPlaneHeights	Ground.cpp	/^void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSamples) {$/;"	f	class:Ground
 isGrounded	main.cpp	/^  bool isGrounded;$/;"	m	struct:__anon1	file:
 lean	main.cpp	/^static Vector2 lean = { 0 };$/;"	v	file:
 lookRotation	main.cpp	/^static Vector2 lookRotation = { 0 };$/;"	v	file:
 main	main.cpp	/^int main(void) {$/;"	f
-null	main.cpp	16;"	d	file:
+null	main.cpp	18;"	d	file:
+objects	World.hpp	/^    std::vector<std::unique_ptr<Object>> objects;$/;"	m	class:World
+override	Ground.hpp	/^    void draw() const override;$/;"	m	class:Ground
+override	World.hpp	/^    void draw() const override;$/;"	m	class:World
+planeHeights	Ground.hpp	/^    std::vector<float> planeHeights;$/;"	m	class:Ground
+planeModel	Ground.hpp	/^    Model planeModel;$/;"	m	class:Ground
 player	main.cpp	/^static Body player = { 0 };$/;"	v	file:
+position	Object.hpp	/^    Vector3 position;$/;"	m	class:Object
 position	main.cpp	/^  Vector3 position;$/;"	m	struct:__anon1	file:
 printvec3	main.cpp	/^void printvec3(Vector3 vec) {$/;"	f
 sensitivity	main.cpp	/^static Vector2 sensitivity = { 0.001f, 0.001f };$/;"	v	file:
-uint	main.cpp	15;"	d	file:
+setPosition	Object.cpp	/^void Object::setPosition(Vector3 position) {$/;"	f	class:Object
+setShader	Object.cpp	/^void Object::setShader(Shader shader) {$/;"	f	class:Object
+shader	Object.hpp	/^    Shader shader;$/;"	m	class:Object
+uint	main.cpp	17;"	d	file:
 velocity	main.cpp	/^  Vector3 velocity;$/;"	m	struct:__anon1	file:
 walkLerp	main.cpp	/^static float walkLerp = 0.0f;$/;"	v	file:
