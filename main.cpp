@@ -228,8 +228,9 @@ void UpdateBody(Body* body, float rot, char side, char forward,
   body->position.z += body->velocity.z*delta;
 
   if (body->position.y <= floorHeight) {
-    body->position.y = floorHeight;
-    std::cout << "height is " << floorHeight << std::endl;
+    body->position.y = Lerp(body->position.y, floorHeight, CONTROL*delta);
+    /* body->position.y = floorHeight; */
+    /* std::cout << "height is " << floorHeight << std::endl; */
     body->velocity.y = 0.0f;
     body->isGrounded = true;
   }

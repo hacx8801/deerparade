@@ -26,7 +26,7 @@ void Ground::draw() const {
         (Color){ 0, 0, 0 });
 
   EndShaderMode();
-  this->drawPlaneHeights(10, 10, 10);
+  /* this->drawPlaneHeights(10, 10, 10); */
 }
 
 void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
@@ -82,6 +82,8 @@ void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSample
 
   float sampleWidthX = (float) perlinNoiseImage.width / (float) numSamples;
   float sampleWidthY = (float) perlinNoiseImage.height / (float) numSamples;
+  sampleWidthX = floor(sampleWidthX);
+  sampleWidthY = floor(sampleWidthY);
 
   for (int i = 0; i < numSamples; i++) {
     for (int j = 0; j < numSamples; j++) {
@@ -109,13 +111,14 @@ float Ground::getHeightAt(const float xPosition, const float zPosition) {
       float x = xPosition + 25;
       float z = zPosition + 25;
 
-      float convFac = 10.0/ 50.0;
+      const float NUM_SAMPLES = 10.0f;
+
+      float convFac = 10.0f/50.0f;
       x *= convFac;
       z *= convFac;
 
+      int index = std::max(0, std::min((int)this->planeHeights.size()-1, (int)z*(10) + (int)x));
 
-      /* std::cout << "x pos: " << xPosition << " z pos: " << xPosition << std::endl; */
-
-      float height = planeHeights.at((int)z*(10) + (int)x);
+      float height = planeHeights.at(index);
       return height;
 }
