@@ -13,11 +13,13 @@
 class Ground : public Object {
   public:
     Ground(std::string vsPath, std::string fsPath);
+    void unloadResources();
     void draw() const override;
     Vector3 touchesGround(Vector3 objectPos) const;
     float getHeightAt(const float xPosition, const float zPosition);
   private:
-    Model planeModel;
+    std::unique_ptr<Model> planeModel;
+    Mesh planeMesh;
     std::vector<float> planeHeights;
     void drawPlaneHeights(int width, int height, int numSamples) const;
     void initModel(std::string vsPath, std::string fsPath, Image& perlinNoiseImage);

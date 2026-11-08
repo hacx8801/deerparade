@@ -12,7 +12,7 @@ COMPILER	Makefile	/^COMPILER = g++$/;"	m
 CONTROL	main.cpp	25;"	d	file:
 CROUCH_HEIGHT	main.cpp	26;"	d	file:
 CROUCH_SPEED	main.cpp	12;"	d	file:
-DrawLevel	main.cpp	/^void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize) {$/;"	f
+DrawLevel	main.cpp	/^void DrawLevel(Ground& ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
 FRICTION	main.cpp	21;"	d	file:
 GRAVITY	main.cpp	10;"	d	file:
 GROUND_H_	Ground.hpp	2;"	d
@@ -26,7 +26,7 @@ MAX_ACCEL	main.cpp	14;"	d	file:
 MAX_SPEED	main.cpp	11;"	d	file:
 NORMALIZE_INPUT	main.cpp	30;"	d	file:
 OBJECT_H_	Object.hpp	2;"	d
-OPTIONS	Makefile	/^OPTIONS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \\$/;"	m
+OPTIONS	Makefile	/^OPTIONS = -Og -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \\$/;"	m
 OPTIONS_RELEASE	Makefile	/^OPTIONS_RELEASE = -Wall -s -Ofast -march=native$/;"	m
 Object	Object.hpp	/^class Object {$/;"	c
 PROGRAM	Makefile	/^PROGRAM = main.out$/;"	m
@@ -56,7 +56,8 @@ objects	World.hpp	/^    std::vector<std::unique_ptr<Object>> objects;$/;"	m	clas
 override	Ground.hpp	/^    void draw() const override;$/;"	m	class:Ground
 override	World.hpp	/^    void draw() const override;$/;"	m	class:World
 planeHeights	Ground.hpp	/^    std::vector<float> planeHeights;$/;"	m	class:Ground
-planeModel	Ground.hpp	/^    Model planeModel;$/;"	m	class:Ground
+planeMesh	Ground.hpp	/^    Mesh planeMesh;$/;"	m	class:Ground
+planeModel	Ground.hpp	/^    std::unique_ptr<Model> planeModel;$/;"	m	class:Ground
 player	main.cpp	/^static Body player = { 0 };$/;"	v	file:
 position	Object.hpp	/^    Vector3 position;$/;"	m	class:Object
 position	main.cpp	/^  Vector3 position;$/;"	m	struct:__anon1	file:
@@ -66,5 +67,6 @@ setPosition	Object.cpp	/^void Object::setPosition(Vector3 position) {$/;"	f	clas
 setShader	Object.cpp	/^void Object::setShader(Shader shader) {$/;"	f	class:Object
 shader	Object.hpp	/^    Shader shader;$/;"	m	class:Object
 uint	main.cpp	17;"	d	file:
+unloadResources	Ground.cpp	/^void Ground::unloadResources() {$/;"	f	class:Ground
 velocity	main.cpp	/^  Vector3 velocity;$/;"	m	struct:__anon1	file:
 walkLerp	main.cpp	/^static float walkLerp = 0.0f;$/;"	v	file:

@@ -2,8 +2,7 @@
 
 Ground::Ground(std::string vsPath, std::string fsPath) {
   // https://www.raylib.com/examples/shaders/loader.html?name=shaders_vertex_displacement
-  Shader shader = LoadShader(vsPath.c_str(), fsPath.c_str());
-  this->setShader(shader);
+  this->setShader(LoadShader(vsPath.c_str(), fsPath.c_str()));
 
   // create perlin noise to use as texture
   Image perlinNoiseImage = GenImagePerlinNoise(512, 512, 0, 0, 1.0f);
@@ -14,14 +13,19 @@ Ground::Ground(std::string vsPath, std::string fsPath) {
   // set the shader 
 }
 
+void Ground::unloadResources() {
+  UnloadShader(this->shader);
+  UnloadModel(*(this->planeModel));
+}
+
 void Ground::draw() const {
-  BeginShaderMode(this->getShader());
+  BeginShaderMode(shader);
 
     /* DrawModel(planeModel, */ 
     /*     (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, */ 
     /*     (Color){ 255, 255, 255 }); */
 
-    DrawModel(planeModel, 
+    DrawModel(*(this->planeModel),
         (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, 
         (Color){ 0, 0, 0 });
 
@@ -46,11 +50,11 @@ void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
       //  float length, 
       //  Color color);
       
-      Vector3 position = (Vector3) {j*sampleWidthX - width/2.0f, 0.0f,  i*sampleWidthZ - height/2.0f};
+      Vector3 position = (Vector3) {(float)j*sampleWidthX - (float)width/2.0f, 0.0f,  (float)i*sampleWidthZ - (float)height/2.0f};
 
       float height = planeHeights.at(i*(numSamples) + j);
 
-      Vector3 correction = (Vector3){sampleWidthX/2.0f, height/2.0 - 2, sampleWidthZ/2.0f};
+      Vector3 correction = (Vector3){sampleWidthX/2.0f, height/2.0f - 2.0f, sampleWidthZ/2.0f};
 
       DrawCubeWires(Vector3Add(position, correction), sampleWidthX, height, sampleWidthZ, RED);
 
@@ -61,18 +65,20 @@ void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
 void Ground::initModel(std::string vsPath, std::string fsPath, Image& perlinNoiseImage) {
   Texture perlinNoiseMap = LoadTextureFromImage(perlinNoiseImage);
 
-  Shader shader = this->getShader();
     
-  int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap");
   rlEnableShader(shader.id);
+  int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap");
   rlActiveTextureSlot(1);
   rlEnableTexture(perlinNoiseMap.id);
   rlSetUniformSampler(perlinNoiseMapLoc, 1);
 
   Mesh planeMesh = GenMeshPlane(50, 50, 50, 50);
 
-  this->planeModel = LoadModelFromMesh(planeMesh);
-  this->planeModel.materials[0].shader = shader;
+  this->planeMesh = planeMesh;
+  
+  this->planeModel = std::make_unique<Model>(LoadModelFromMesh(this->planeMesh));
+  this->planeModel->materials[0].shader = this->shader;
+  rlDisableShader();
 }
 
 void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSamples) {
@@ -89,10 +95,10 @@ void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSample
     for (int j = 0; j < numSamples; j++) {
       // sample the pixel value at the four
       // corners of the bounding box
-      Color point1 = GetImageColor(perlinNoiseImage, (int)j*sampleWidthX, (int)i*sampleWidthY);
-      Color point2 = GetImageColor(perlinNoiseImage, (int)(j+1)*sampleWidthX, (int)i*sampleWidthY);
-      Color point3 = GetImageColor(perlinNoiseImage, (int)j*sampleWidthX, (int)(i+1)*sampleWidthY);
-      Color point4 = GetImageColor(perlinNoiseImage, (int)(j+1)*sampleWidthX, (int)(i+1)*sampleWidthY);
+      Color point1 = GetImageColor(perlinNoiseImage, j*(int)sampleWidthX, i*(int)sampleWidthY);
+      Color point2 = GetImageColor(perlinNoiseImage, (j+1)*(int)sampleWidthX, i*(int)sampleWidthY);
+      Color point3 = GetImageColor(perlinNoiseImage, j*(int)sampleWidthX, (i+1)*(int)sampleWidthY);
+      Color point4 = GetImageColor(perlinNoiseImage, (j+1)*(int)sampleWidthX, (i+1)*(int)sampleWidthY);
 
       int red = std::min(255, (point1.r+point2.r+point3.r+point4.r)/4);
       int green = std::min(255, (point1.g+point2.g+point3.g+point4.g)/4);
@@ -111,13 +117,13 @@ float Ground::getHeightAt(const float xPosition, const float zPosition) {
       float x = xPosition + 25;
       float z = zPosition + 25;
 
-      const float NUM_SAMPLES = 10.0f;
+      const int NUM_SAMPLES = 10;
 
       float convFac = 10.0f/50.0f;
       x *= convFac;
       z *= convFac;
 
-      int index = std::max(0, std::min((int)this->planeHeights.size()-1, (int)z*(10) + (int)x));
+      int index = std::max(0, std::min((int)this->planeHeights.size()-1, (int)z*(NUM_SAMPLES) + (int)x));
 
       float height = planeHeights.at(index);
       return height;

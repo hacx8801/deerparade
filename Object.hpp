@@ -12,9 +12,10 @@ class Object {
     virtual Shader getShader() const;
     virtual void setPosition(Vector3 position);
     virtual Vector3 getPosition() const;
+  protected:
+    Shader shader;
   private:
     Vector3 position;
-    Shader shader;
 };
 
 #endif

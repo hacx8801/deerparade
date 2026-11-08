@@ -51,7 +51,7 @@ static Vector2 lean = { 0 };
 static void UpdateCameraFPS(Camera* camera);
 static void UpdateBody(Body* body, float rot, char side, char forward, 
     bool jumpPressed, bool crouchHold, float floorHeight);
-void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize);
+void DrawLevel(Ground& ground, std::vector<Vector3> terrain, int arrSize);
 float GetRandom(unsigned int scalar);
 void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height);
 
@@ -59,7 +59,6 @@ int main(void) {
   // initialize data
   const int screenWidth = 800;
   const int screenHeight = 450;
-
 
   // seed for random terrain height
   srand((uint)time(NULL));
@@ -148,7 +147,7 @@ int main(void) {
 
       BeginMode3D(camera);
 
-        DrawLevel(ground, width, height, terrain, arrSize);
+        DrawLevel(ground, terrain, arrSize);
 
       EndMode3D();
 
@@ -167,6 +166,7 @@ int main(void) {
   }
 
   // de-init window and ogl context
+  ground.unloadResources();
   CloseWindow();
 
   return 0;
@@ -305,10 +305,8 @@ void printvec3(Vector3 vec) {
   printf("\t(%f, %f, %f) ", vec.x, vec.y, vec.z);
 }
 
-void DrawLevel(Ground ground, int width, int height, std::vector<Vector3> terrain, int arrSize) {
+void DrawLevel(Ground& ground, std::vector<Vector3> terrain, int arrSize) {
   /* const float tileSize = 5.0f; */
-  const Color green1 = (Color) { 0, 150, 0, 255 };
-  const Color green2 = (Color) { 0, 120, 0, 255 };
 
   /* // floor tiles */
   /* for (int y = -floorExtent; y < floorExtent; y++) { */
