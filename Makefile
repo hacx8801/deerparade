@@ -1,6 +1,6 @@
 # Variables
 COMPILER = g++
-OPTIONS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
+OPTIONS = -Og -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
 -Werror=format-security \
 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
 -D_GLIBCXX_ASSERTIONS \
