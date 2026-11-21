@@ -1,6 +1,6 @@
 # Variables
 COMPILER = g++
-OPTIONS = -Og -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
+OPTIONS_RELEASE = -O2 -march=native -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
 -Werror=format-security \
 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
 -D_GLIBCXX_ASSERTIONS \
@@ -16,14 +16,19 @@ OPTIONS = -Og -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
 -fno-delete-null-pointer-checks -fno-strict-overflow \
 -fno-strict-aliasing -ftrivial-auto-var-init=zero \
 -fsanitize=address,undefined
-OPTIONS_RELEASE = -Wall -s -Ofast -march=native
+OPTIONS_DEBUG = -Og -Wall -Wextra -Wpedantic -Wcast-align -Wcast-qual \
+-Wdisabled-optimization -Wduplicated-branches -Wduplicated-cond \
+-Wformat=2 -Wlogical-op -Wmissing-include-dirs -Wnull-dereference \
+-Woverloaded-virtual -Wpointer-arith -Wshadow -Wswitch-enum -Wvla \
+-fasynchronous-unwind-tables
+
 PROGRAM = main.out
-CFILES = main.cpp World.cpp Object.cpp Ground.cpp
+CFILES = main.cpp World.cpp Object.cpp Ground.cpp GroundTiler.cpp
 # HPPFILES = list.h
-LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -g
 
 debug: $(CFILES) $(HFILES)
-	$(COMPILER) $(OPTIONS) $(CFILES) -o $(PROGRAM) $(LD_FLAGS) 
+	$(COMPILER) $(OPTIONS_DEBUG) $(CFILES) -o $(PROGRAM) $(LD_FLAGS) 
 
 release: $(CFILES) $(HFILES)
 	$(COMPILER) $(OPTIONS_RELEASE) $(CFILES) -o $(PROGRAM) $(LD_FLAGS)

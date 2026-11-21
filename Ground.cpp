@@ -1,16 +1,57 @@
 #include "Ground.hpp"
 
-Ground::Ground(std::string vsPath, std::string fsPath) {
+Ground::Ground(std::string vsPath, std::string fsPath) : Ground(vsPath, fsPath, 50, 50, (Vector3){0.0f, 0.0f, 0.0f}) {}
+
+Ground::Ground(std::string vsPath, std::string fsPath, int width, int length, Vector3 origin): meshWidth{width}, meshLength{length}, origin{origin} {
   // https://www.raylib.com/examples/shaders/loader.html?name=shaders_vertex_displacement
   this->setShader(LoadShader(vsPath.c_str(), fsPath.c_str()));
 
   // create perlin noise to use as texture
-  Image perlinNoiseImage = GenImagePerlinNoise(512, 512, 0, 0, 1.0f);
+  int texWidth = leastGreaterTwo(width*10);
+  int texLength = leastGreaterTwo(length*10);
+  std::cout << "size w is: " << texWidth << std::endl;
+  std::cout << "size l is: " << texLength << std::endl;
+
+  Image perlinNoiseImage = GenImagePerlinNoise(texWidth, texLength, 0, 0, 1.0f);
   this->initModel(vsPath, fsPath, perlinNoiseImage);
   this->initPlaneHeights(perlinNoiseImage, 10);
   UnloadImage(perlinNoiseImage);
 
-  // set the shader 
+}
+
+Ground::Ground(const Ground& other) {
+  planeModel = nullptr;
+  planeMesh = nullptr;
+
+  planeModel = std::make_unique<Model>(*(other.planeModel));
+  planeMesh = std::make_unique<Mesh>(*(other.planeMesh));
+  planeHeights = other.planeHeights;
+
+  meshWidth = other.meshWidth;
+  meshLength = other.meshLength;
+  origin = other.origin;
+}
+
+Ground& Ground::operator=(Ground&& other) {
+
+  if (this != &other) {
+    planeModel = nullptr;
+    planeMesh = nullptr;
+
+    planeModel = std::move(other.planeModel);
+    planeMesh = std::move(other.planeMesh);
+    planeHeights = std::move(other.planeHeights);
+
+    meshWidth = other.meshWidth;
+    meshLength = other.meshLength;
+    origin = other.origin;
+
+    other.planeModel = nullptr;
+    other.planeMesh = nullptr;
+  }
+
+  return *this;
+
 }
 
 void Ground::unloadResources() {
@@ -21,34 +62,37 @@ void Ground::unloadResources() {
 void Ground::draw() const {
   BeginShaderMode(shader);
 
-    /* DrawModel(planeModel, */ 
-    /*     (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, */ 
-    /*     (Color){ 255, 255, 255 }); */
-
     DrawModel(*(this->planeModel),
-        (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, 
+        this->origin, 1.0f, 
         (Color){ 0, 0, 0 });
 
   EndShaderMode();
-  /* this->drawPlaneHeights(10, 10, 10); */
 }
 
+int Ground::leastGreaterTwo(int n) {
+  if (n <= 1) {
+    return 1;
+  }
+
+  int num = 1;
+  while ((n & 0xf) != 0xf) {
+    n |= (n >> num);
+    num *= 2;
+  }
+
+  return n + 1;
+}
+
+// for debugging
 void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
-  width = 50;
-  height = 50;
+  width = meshWidth;
+  height = meshLength;
 
   float sampleWidthX = (float) width / (float) numSamples;
   float sampleWidthZ = (float) height / (float) numSamples;
 
   for (int i = 0; i < numSamples; i++) {
     for (int j = 0; j < numSamples; j++) {
-      // sample the pixel value at the four
-      // corners of the bounding box
-      // void DrawCubeWires(Vector3 position,
-      //  float width, 
-      //  float height, 
-      //  float length, 
-      //  Color color);
       
       Vector3 position = (Vector3) {(float)j*sampleWidthX - (float)width/2.0f, 0.0f,  (float)i*sampleWidthZ - (float)height/2.0f};
 
@@ -64,7 +108,6 @@ void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
 
 void Ground::initModel(std::string vsPath, std::string fsPath, Image& perlinNoiseImage) {
   Texture perlinNoiseMap = LoadTextureFromImage(perlinNoiseImage);
-
     
   rlEnableShader(shader.id);
   int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap");
@@ -72,11 +115,10 @@ void Ground::initModel(std::string vsPath, std::string fsPath, Image& perlinNois
   rlEnableTexture(perlinNoiseMap.id);
   rlSetUniformSampler(perlinNoiseMapLoc, 1);
 
-  Mesh planeMesh = GenMeshPlane(50, 50, 50, 50);
-
-  this->planeMesh = planeMesh;
+  this->planeMesh = std::make_unique<Mesh>(GenMeshPlane(meshWidth, 
+        meshLength, meshWidth, meshLength));
   
-  this->planeModel = std::make_unique<Model>(LoadModelFromMesh(this->planeMesh));
+  this->planeModel = std::make_unique<Model>(LoadModelFromMesh(*(this->planeMesh)));
   this->planeModel->materials[0].shader = this->shader;
   rlDisableShader();
 }
@@ -113,18 +155,24 @@ void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSample
   
 }
 
-float Ground::getHeightAt(const float xPosition, const float zPosition) {
-      float x = xPosition + 25;
-      float z = zPosition + 25;
+float Ground::getHeightAt(const float xPosition, const float zPosition) const {
+      float x = xPosition + (meshWidth / 2.0f);
+      float z = zPosition + (meshLength / 2.0f);
 
-      const int NUM_SAMPLES = 10;
+      const int NUM_SAMPLES_X = 10;
+      const int NUM_SAMPLES_Z = 10;
 
-      float convFac = 10.0f/50.0f;
-      x *= convFac;
-      z *= convFac;
+      float convFacX = (float)NUM_SAMPLES_X/meshWidth;
+      float convFacZ = (float)NUM_SAMPLES_Z/meshLength;
+      x *= convFacX;
+      z *= convFacZ;
 
-      int index = std::max(0, std::min((int)this->planeHeights.size()-1, (int)z*(NUM_SAMPLES) + (int)x));
+      int index = std::max(0, std::min((int)this->planeHeights.size()-1, (int)z*(NUM_SAMPLES_Z) + (int)x));
 
       float height = planeHeights.at(index);
       return height;
+}
+
+const Vector3& Ground::getOrigin() const {
+  return this->origin;
 }

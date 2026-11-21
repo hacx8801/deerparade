@@ -5,6 +5,7 @@
 #include <vector>
 #include "World.hpp"
 #include "Ground.hpp"
+#include "GroundTiler.hpp"
 
 // movement constraints
 #define GRAVITY         32.0f
@@ -37,6 +38,7 @@ typedef struct {
   bool isGrounded;
 } Body;
 
+
 // global variable definitions
 static Vector2 sensitivity = { 0.001f, 0.001f };
 
@@ -52,13 +54,14 @@ static void UpdateCameraFPS(Camera* camera);
 static void UpdateBody(Body* body, float rot, char side, char forward, 
     bool jumpPressed, bool crouchHold, float floorHeight);
 void DrawLevel(Ground& ground, std::vector<Vector3> terrain, int arrSize);
+void DrawLevel(GroundTiler& ground, std::vector<Vector3> terrain, int arrSize);
 float GetRandom(unsigned int scalar);
 void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height);
 
 int main(void) {
   // initialize data
-  const int screenWidth = 800;
-  const int screenHeight = 450;
+  const int screenWidth = 1600;
+  const int screenHeight = 900;
 
   // seed for random terrain height
   srand((uint)time(NULL));
@@ -73,8 +76,11 @@ int main(void) {
     player.position.y + (BOTTOM_HEIGHT + headLerp),
     player.position.z,
   };
+  uint width = 50;
+  uint height = 50;
 
-  Ground ground = Ground("terrain_shader_grass_vs.glsl", "terrain_shader_grass_fs.glsl");
+  Vector3 origin = (Vector3) {0.0f, 0.0f, 0.0f};
+  GroundTiler ground = GroundTiler("terrain_shader_grass_vs.glsl", "terrain_shader_grass_fs.glsl");
 
   UpdateCameraFPS(&camera);
   DisableCursor();
@@ -82,8 +88,6 @@ int main(void) {
   SetTargetFPS(60);
   
   float ratio = 6.0f/10;
-  uint width = 100;
-  uint height = 100;
   uint arrSize = (int)floor((float)width * ratio);
 
   std::vector<Vector3> terrain;
@@ -230,7 +234,7 @@ void UpdateBody(Body* body, float rot, char side, char forward,
   if (body->position.y <= floorHeight) {
     body->position.y = Lerp(body->position.y, floorHeight, CONTROL*delta);
     /* body->position.y = floorHeight; */
-    /* std::cout << "height is " << floorHeight << std::endl; */
+    std::cout << "height is " << floorHeight << std::endl;
     body->velocity.y = 0.0f;
     body->isGrounded = true;
   }
@@ -306,33 +310,9 @@ void printvec3(Vector3 vec) {
 }
 
 void DrawLevel(Ground& ground, std::vector<Vector3> terrain, int arrSize) {
-  /* const float tileSize = 5.0f; */
-
-  /* // floor tiles */
-  /* for (int y = -floorExtent; y < floorExtent; y++) { */
-  /*   for (int x = -floorExtent; x < floorExtent; x++) { */
-  /*     if ((y & 1) && (x & 1)) { */
-  /*       /1* DrawPlane((Vector3){ x * tileSize, 0.0f, y * tileSize}, (Vector2){ tileSize, tileSize }, green1); *1/ */
-  /*     } */
-  /*     else if (!(y & 1) && !(x & 1)) { */
-  /*       /1* DrawPlane((Vector3){ x * tileSize, 0.0f, y * tileSize}, (Vector2){ tileSize, tileSize }, green1); *1/ */
-  /*     } */
-  /*     else { */
-  /*       /1* DrawPlane((Vector3){ x * tileSize, 0.0f, y * tileSize}, (Vector2){ tileSize, tileSize }, green2); *1/ */
-  /*     } */
-  /*   } */
-  /* } */
-
-
-  /* // terrain above floor tiles */
-  /* for (int i = 0; i < arrSize-1; i++) { */
-  /*   for (int j = 0; j < arrSize-1; j++) { */
-  /*     DrawTriangle3D(terrain[arrSize*i+j], terrain[arrSize*(i+1)+(j+1)], terrain[arrSize*i+(j+1)], green1); */
-  /*     DrawTriangle3D(terrain[arrSize*i+j], terrain[arrSize*(i+1)+(j)], terrain[arrSize*(i+1)+(j+1)], green2); */
-  /*   } */
-  /* } */
-
   ground.draw();
-  
+}
 
+void DrawLevel(GroundTiler& ground, std::vector<Vector3> terrain, int arrSize) {
+  ground.draw();
 }
