@@ -48,7 +48,7 @@ private:
   const int xExtent;
   // = meshLength * arrayWidth
   const int zExtent;
-  std::vector<GroundTile> tiles;
+  std::vector<std::unique_ptr<GroundTile>> tiles;
 
   // determines which tile upon which the player is standing
   // after determining the tile, we convert the global player

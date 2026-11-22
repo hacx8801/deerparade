@@ -98,7 +98,7 @@ shader	Object.hpp	/^  Shader shader;$/;"	m	class:Object
 startX	GroundTiler.hpp	/^  const float startX;$/;"	m	class:GroundTile
 startY	GroundTiler.hpp	/^  const float startY;$/;"	m	class:GroundTile
 tile	GroundTiler.hpp	/^  Ground tile;$/;"	m	class:GroundTile
-tiles	GroundTiler.hpp	/^  std::vector<GroundTile> tiles;$/;"	m	class:GroundTiler
+tiles	GroundTiler.hpp	/^  std::vector<std::unique_ptr<GroundTile>> tiles;$/;"	m	class:GroundTiler
 touchesGround	GroundTiler.cpp	/^Vector3 touchesGround(Vector3 objectPos) { return {0.0f, 0.0f, 0.0f}; }$/;"	f
 uint	main.cpp	17;"	d	file:
 unloadResources	Ground.cpp	/^void Ground::unloadResources() {$/;"	f	class:Ground

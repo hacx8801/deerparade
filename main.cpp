@@ -79,8 +79,11 @@ int main(void) {
   uint height = 50;
 
   Vector3 origin = (Vector3){0.0f, 0.0f, 0.0f};
-  GroundTiler ground = GroundTiler("terrain_shader_grass_vs.glsl",
-                                   "terrain_shader_grass_fs.glsl");
+  /* FIXME: allocate shader outside of groundtile to pass by reference */
+  /* GroundTiler ground = GroundTiler("terrain_shader_grass_vs.glsl", */
+  /*                                  "terrain_shader_grass_fs.glsl"); */
+  Ground ground =
+      Ground("terrain_shader_grass_vs.glsl", "terrain_shader_grass_fs.glsl");
 
   UpdateCameraFPS(&camera);
   DisableCursor();

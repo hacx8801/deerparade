@@ -1,4 +1,5 @@
 #include "Ground.hpp"
+#include <cassert>
 
 Ground::Ground(std::string vsPath, std::string fsPath)
     : Ground(vsPath, fsPath, 50, 50, (Vector3){0.0f, 0.0f, 0.0f}) {}
@@ -8,6 +9,7 @@ Ground::Ground(std::string vsPath, std::string fsPath, int width, int length,
     : meshWidth{width}, meshLength{length}, origin{origin} {
   // https://www.raylib.com/examples/shaders/loader.html?name=shaders_vertex_displacement
   this->setShader(LoadShader(vsPath.c_str(), fsPath.c_str()));
+  assert(IsShaderValid(shader));
 
   // create perlin noise to use as texture
   int texWidth = leastGreaterTwo(width * 10);
@@ -15,7 +17,8 @@ Ground::Ground(std::string vsPath, std::string fsPath, int width, int length,
   /* std::cout << "size w is: " << texWidth << std::endl; */
   /* std::cout << "size l is: " << texLength << std::endl; */
 
-  Image perlinNoiseImage = GenImagePerlinNoise(texWidth, texLength, 0, 0, 1.0f);
+  Image perlinNoiseImage =
+      GenImagePerlinNoise(texWidth, texLength, 10, 10, 1.0f);
   this->initModel(vsPath, fsPath, perlinNoiseImage);
   this->initPlaneHeights(perlinNoiseImage, 10);
   UnloadImage(perlinNoiseImage);
@@ -56,11 +59,16 @@ Ground &Ground::operator=(Ground &&other) {
 }
 
 void Ground::unloadResources() {
-  UnloadShader(this->shader);
+
+  if (IsShaderValid(shader)) {
+    UnloadShader(this->shader);
+    this->shader.id = -1;
+  }
   UnloadModel(*(this->planeModel));
 }
 
 void Ground::draw() const {
+
   BeginShaderMode(shader);
 
   DrawModel(*(this->planeModel), this->origin, 1.0f, (Color){0, 0, 0});

@@ -17,7 +17,7 @@ GroundTiler::GroundTiler(std::string vsPath, std::string fsPath)
 GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width,
                          int length)
     : vsPath{vsPath}, fsPath{fsPath}, meshWidth{width}, meshLength{length},
-      arrayWidth{5}, xExtent{meshWidth * arrayWidth},
+      arrayWidth{3}, xExtent{meshWidth * arrayWidth},
       zExtent{meshLength * arrayWidth} {
   // get the world coordinate offset for the top left of the tile grid
   float xOffset = floor(arrayWidth / 2.0f);
@@ -37,20 +37,28 @@ GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width,
       origin.x += startPos.x;
       origin.z += startPos.z;
 
-      this->tiles.emplace_back(
-          GroundTile(meshWidth, meshLength, origin, vsPath, fsPath));
+      this->tiles.emplace_back(std::make_unique<GroundTile>(
+          GroundTile(meshWidth, meshLength, origin, vsPath, fsPath)));
     }
   }
 }
 
 void GroundTiler::unloadResources() {
-  std::for_each(this->tiles.begin(), this->tiles.end(),
-                ([](GroundTile &o) -> void { o.tile.unloadResources(); }));
+  /* std::for_each(this->tiles.begin(), this->tiles.end(), */
+  /*               ([](std::unique_ptr<GroundTile> o) -> void { */
+  /*                 o->tile.unloadResources(); */
+  /*               })); */
+  for (unsigned int i = 0; i < tiles.size(); i++) {
+    tiles.at(i)->tile.unloadResources();
+  }
+
+  /* this->tiles.at(0).tile.unloadResources(); */
 }
 
 void GroundTiler::draw() const {
-  std::for_each(this->tiles.begin(), this->tiles.end(),
-                ([](const GroundTile &o) -> void { o.tile.draw(); }));
+  for (unsigned int i = 0; i < tiles.size(); i++) {
+    tiles.at(i)->tile.draw();
+  }
 }
 
 Vector3 touchesGround(Vector3 objectPos) { return {0.0f, 0.0f, 0.0f}; }
@@ -75,5 +83,5 @@ const float GroundTiler::getHeightAt(const float rawXPosition,
   // access the local tile and return the height
   int index = std::max(0, std::min(lengthIndex * arrayWidth + widthIndex,
                                    (int)arrayWidth * arrayWidth - 1));
-  return tiles.at(index).tile.getHeightAt(localTileX, localTileZ);
+  return tiles.at(index)->tile.getHeightAt(localTileX, localTileZ);
 }
