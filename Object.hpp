@@ -5,17 +5,19 @@
 #include <rlgl.h>
 
 class Object {
-  public:
-    // pure virtual function
-    virtual void draw() const = 0;
-    virtual void setShader(Shader shader);
-    virtual Shader getShader() const;
-    virtual void setPosition(Vector3 position);
-    virtual Vector3 getPosition() const;
-  protected:
-    Shader shader;
-  private:
-    Vector3 position;
+public:
+  // pure virtual function
+  virtual void draw() const = 0;
+  virtual void setShader(Shader shader);
+  virtual Shader getShader() const;
+  virtual void setPosition(Vector3 position);
+  virtual Vector3 getPosition() const;
+
+protected:
+  Shader shader;
+
+private:
+  Vector3 position;
 };
 
 #endif

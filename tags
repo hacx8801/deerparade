@@ -4,107 +4,107 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-AIR_DRAG	main.cpp	24;"	d	file:
-BOTTOM_HEIGHT	main.cpp	29;"	d	file:
+AIR_DRAG	main.cpp	23;"	d	file:
+BOTTOM_HEIGHT	main.cpp	28;"	d	file:
 Body	main.cpp	/^} Body;$/;"	t	typeref:struct:__anon1	file:
 CFILES	Makefile	/^CFILES = main.cpp World.cpp Object.cpp Ground.cpp GroundTiler.cpp$/;"	m
 COMPILER	Makefile	/^COMPILER = g++$/;"	m
-CONTROL	main.cpp	26;"	d	file:
-CROUCH_HEIGHT	main.cpp	27;"	d	file:
-CROUCH_SPEED	main.cpp	13;"	d	file:
-DEFAULT_LENGTH	GroundTiler.hpp	/^    static const int DEFAULT_LENGTH = 50;$/;"	m	class:GroundTiler
-DEFAULT_WIDTH	GroundTiler.hpp	/^    static const int DEFAULT_WIDTH = 50;$/;"	m	class:GroundTiler
-DrawLevel	main.cpp	/^void DrawLevel(Ground& ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
-DrawLevel	main.cpp	/^void DrawLevel(GroundTiler& ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
-FRICTION	main.cpp	22;"	d	file:
-GRAVITY	main.cpp	11;"	d	file:
-GROULDTILER_H_	GroundTiler.hpp	2;"	d
+CONTROL	main.cpp	25;"	d	file:
+CROUCH_HEIGHT	main.cpp	26;"	d	file:
+CROUCH_SPEED	main.cpp	12;"	d	file:
+DEFAULT_LENGTH	GroundTiler.hpp	/^  static const int DEFAULT_LENGTH = 50;$/;"	m	class:GroundTiler
+DEFAULT_WIDTH	GroundTiler.hpp	/^  static const int DEFAULT_WIDTH = 50;$/;"	m	class:GroundTiler
+DrawLevel	main.cpp	/^void DrawLevel(Ground &ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
+DrawLevel	main.cpp	/^void DrawLevel(GroundTiler &ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
+FRICTION	main.cpp	21;"	d	file:
+GRAVITY	main.cpp	10;"	d	file:
+GROUNDTILER_H_	GroundTiler.hpp	2;"	d
 GROUND_H_	Ground.hpp	2;"	d
-GenerateTerrainArray	main.cpp	/^void GenerateTerrainArray(std::vector<Vector3>& arr, int arrSize, int width, int height) {$/;"	f
+GenerateTerrainArray	main.cpp	/^void GenerateTerrainArray(std::vector<Vector3> &arr, int arrSize, int width,$/;"	f
 GetRandom	main.cpp	/^float GetRandom(unsigned int scalar) {$/;"	f
-Ground	Ground.cpp	/^Ground::Ground(const Ground& other) {$/;"	f	class:Ground
-Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath) : Ground(vsPath, fsPath, 50, 50, (Vector3){0.0f, 0.0f, 0.0f}) {}$/;"	f	class:Ground
-Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath, int width, int length, Vector3 origin): meshWidth{width}, meshLength{length}, origin{origin} {$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(const Ground &other) {$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath)$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath, int width, int length,$/;"	f	class:Ground
 Ground	Ground.hpp	/^class Ground : public Object {$/;"	c
-GroundTile	GroundTiler.cpp	/^GroundTile::GroundTile(int width, int length, Vector3 origin, $/;"	f	class:GroundTile
+GroundTile	GroundTiler.cpp	/^GroundTile::GroundTile(int width, int length, Vector3 origin,$/;"	f	class:GroundTile
 GroundTile	GroundTiler.hpp	/^class GroundTile {$/;"	c
-GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(std::string vsPath, std::string fsPath):$/;"	f	class:GroundTiler
-GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width, int length):$/;"	f	class:GroundTiler
+GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(std::string vsPath, std::string fsPath)$/;"	f	class:GroundTiler
+GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width,$/;"	f	class:GroundTiler
 GroundTiler	GroundTiler.hpp	/^class GroundTiler : public Object {$/;"	c
-JUMP_FORCE	main.cpp	14;"	d	file:
+JUMP_FORCE	main.cpp	13;"	d	file:
 LD_FLAGS	Makefile	/^LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -g$/;"	m
-MAX_ACCEL	main.cpp	15;"	d	file:
-MAX_SPEED	main.cpp	12;"	d	file:
-NORMALIZE_INPUT	main.cpp	31;"	d	file:
+MAX_ACCEL	main.cpp	14;"	d	file:
+MAX_SPEED	main.cpp	11;"	d	file:
+NORMALIZE_INPUT	main.cpp	30;"	d	file:
 OBJECT_H_	Object.hpp	2;"	d
 OPTIONS_DEBUG	Makefile	/^OPTIONS_DEBUG = -Og -Wall -Wextra -Wpedantic -Wcast-align -Wcast-qual \\$/;"	m
 OPTIONS_RELEASE	Makefile	/^OPTIONS_RELEASE = -O2 -march=native -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \\$/;"	m
 Object	Object.hpp	/^class Object {$/;"	c
 PROGRAM	Makefile	/^PROGRAM = main.out$/;"	m
-STAND_HEIGHT	main.cpp	28;"	d	file:
-UpdateBody	main.cpp	/^void UpdateBody(Body* body, float rot, char side, char forward, $/;"	f
-UpdateCameraFPS	main.cpp	/^void UpdateCameraFPS(Camera* camera) {$/;"	f
+STAND_HEIGHT	main.cpp	27;"	d	file:
+UpdateBody	main.cpp	/^void UpdateBody(Body *body, float rot, char side, char forward,$/;"	f
+UpdateCameraFPS	main.cpp	/^void UpdateCameraFPS(Camera *camera) {$/;"	f
 WORLD_H_	World.hpp	2;"	d
 World	World.hpp	/^class World : public Object {$/;"	c
-add	World.cpp	/^void World::add (std::unique_ptr<Object> object) {$/;"	f	class:World
-arrayWidth	GroundTiler.hpp	/^    const int arrayWidth;$/;"	m	class:GroundTiler
+add	World.cpp	/^void World::add(std::unique_ptr<Object> object) {$/;"	f	class:World
+arrayWidth	GroundTiler.hpp	/^  const int arrayWidth;$/;"	m	class:GroundTiler
 dir	main.cpp	/^  Vector3 dir;$/;"	m	struct:__anon1	file:
 draw	Ground.cpp	/^void Ground::draw() const {$/;"	f	class:Ground
-draw	GroundTiler.cpp	/^void GroundTiler::draw() const  {$/;"	f	class:GroundTiler
+draw	GroundTiler.cpp	/^void GroundTiler::draw() const {$/;"	f	class:GroundTiler
 draw	World.cpp	/^void World::draw() const {$/;"	f	class:World
 drawPlaneHeights	Ground.cpp	/^void Ground::drawPlaneHeights(int width, int height, int numSamples) const {$/;"	f	class:Ground
-endX	GroundTiler.hpp	/^    const float endX;$/;"	m	class:GroundTile
-endY	GroundTiler.hpp	/^    const float endY;$/;"	m	class:GroundTile
-fsPath	GroundTiler.hpp	/^    const std::string fsPath;$/;"	m	class:GroundTiler
+endX	GroundTiler.hpp	/^  const float endX;$/;"	m	class:GroundTile
+endY	GroundTiler.hpp	/^  const float endY;$/;"	m	class:GroundTile
+fsPath	GroundTiler.hpp	/^  const std::string fsPath;$/;"	m	class:GroundTiler
 getHeightAt	Ground.cpp	/^float Ground::getHeightAt(const float xPosition, const float zPosition) const {$/;"	f	class:Ground
-getHeightAt	GroundTiler.cpp	/^const float GroundTiler::getHeightAt(const float rawXPosition, const float rawZPosition) const {$/;"	f	class:GroundTiler
-getOrigin	Ground.cpp	/^const Vector3& Ground::getOrigin() const {$/;"	f	class:Ground
-getOrigin	GroundTiler.cpp	/^const Vector3& GroundTile::getOrigin() const {$/;"	f	class:GroundTile
-getPosition	Object.cpp	/^Vector3 Object::getPosition() const  {$/;"	f	class:Object
-getShader	Object.cpp	/^Shader Object::getShader() const {$/;"	f	class:Object
+getHeightAt	GroundTiler.cpp	/^const float GroundTiler::getHeightAt(const float rawXPosition,$/;"	f	class:GroundTiler
+getOrigin	Ground.cpp	/^const Vector3 &Ground::getOrigin() const { return this->origin; }$/;"	f	class:Ground
+getOrigin	GroundTiler.cpp	/^const Vector3 &GroundTile::getOrigin() const { return this->tile.getOrigin(); }$/;"	f	class:GroundTile
+getPosition	Object.cpp	/^Vector3 Object::getPosition() const { return this->position; }$/;"	f	class:Object
+getShader	Object.cpp	/^Shader Object::getShader() const { return this->shader; }$/;"	f	class:Object
 headLerp	main.cpp	/^static float headLerp = STAND_HEIGHT;$/;"	v	file:
 headTimer	main.cpp	/^static float headTimer = 0.0f;$/;"	v	file:
-initModel	Ground.cpp	/^void Ground::initModel(std::string vsPath, std::string fsPath, Image& perlinNoiseImage) {$/;"	f	class:Ground
-initPlaneHeights	Ground.cpp	/^void Ground::initPlaneHeights(const Image& perlinNoiseImage, const int numSamples) {$/;"	f	class:Ground
-isDrawn	GroundTiler.hpp	/^    bool isDrawn;$/;"	m	class:GroundTile
+initModel	Ground.cpp	/^void Ground::initModel(std::string vsPath, std::string fsPath,$/;"	f	class:Ground
+initPlaneHeights	Ground.cpp	/^void Ground::initPlaneHeights(const Image &perlinNoiseImage,$/;"	f	class:Ground
+isDrawn	GroundTiler.hpp	/^  bool isDrawn;$/;"	m	class:GroundTile
 isGrounded	main.cpp	/^  bool isGrounded;$/;"	m	struct:__anon1	file:
-lean	main.cpp	/^static Vector2 lean = { 0 };$/;"	v	file:
+lean	main.cpp	/^static Vector2 lean = {0};$/;"	v	file:
 leastGreaterTwo	Ground.cpp	/^int Ground::leastGreaterTwo(int n) {$/;"	f	class:Ground
-lookRotation	main.cpp	/^static Vector2 lookRotation = { 0 };$/;"	v	file:
+lookRotation	main.cpp	/^static Vector2 lookRotation = {0};$/;"	v	file:
 main	main.cpp	/^int main(void) {$/;"	f
-meshLength	Ground.hpp	/^    int meshLength;$/;"	m	class:Ground
-meshLength	GroundTiler.hpp	/^    const int meshLength;$/;"	m	class:GroundTiler
-meshWidth	Ground.hpp	/^    int meshWidth;$/;"	m	class:Ground
-meshWidth	GroundTiler.hpp	/^    const int meshWidth;$/;"	m	class:GroundTiler
-null	main.cpp	19;"	d	file:
-objects	World.hpp	/^    std::vector<std::unique_ptr<Object>> objects;$/;"	m	class:World
-operator =	Ground.cpp	/^Ground& Ground::operator=(Ground&& other) {$/;"	f	class:Ground
-origin	Ground.hpp	/^    Vector3 origin;$/;"	m	class:Ground
-origin	GroundTiler.hpp	/^    Vector3 origin;$/;"	m	class:GroundTile
-override	Ground.hpp	/^    void draw() const override;$/;"	m	class:Ground
-override	GroundTiler.hpp	/^    void draw() const override;$/;"	m	class:GroundTiler
-override	World.hpp	/^    void draw() const override;$/;"	m	class:World
-planeHeights	Ground.hpp	/^    std::vector<float> planeHeights;$/;"	m	class:Ground
-planeMesh	Ground.hpp	/^    std::unique_ptr<Mesh> planeMesh;$/;"	m	class:Ground
-planeModel	Ground.hpp	/^    std::unique_ptr<Model> planeModel;$/;"	m	class:Ground
-player	main.cpp	/^static Body player = { 0 };$/;"	v	file:
-position	Object.hpp	/^    Vector3 position;$/;"	m	class:Object
+meshLength	Ground.hpp	/^  int meshLength;$/;"	m	class:Ground
+meshLength	GroundTiler.hpp	/^  const int meshLength;$/;"	m	class:GroundTiler
+meshWidth	Ground.hpp	/^  int meshWidth;$/;"	m	class:Ground
+meshWidth	GroundTiler.hpp	/^  const int meshWidth;$/;"	m	class:GroundTiler
+null	main.cpp	18;"	d	file:
+objects	World.hpp	/^  std::vector<std::unique_ptr<Object>> objects;$/;"	m	class:World
+operator =	Ground.cpp	/^Ground &Ground::operator=(Ground &&other) {$/;"	f	class:Ground
+origin	Ground.hpp	/^  Vector3 origin;$/;"	m	class:Ground
+origin	GroundTiler.hpp	/^  Vector3 origin;$/;"	m	class:GroundTile
+override	Ground.hpp	/^  void draw() const override;$/;"	m	class:Ground
+override	GroundTiler.hpp	/^  void draw() const override;$/;"	m	class:GroundTiler
+override	World.hpp	/^  void draw() const override;$/;"	m	class:World
+planeHeights	Ground.hpp	/^  std::vector<float> planeHeights;$/;"	m	class:Ground
+planeMesh	Ground.hpp	/^  std::unique_ptr<Mesh> planeMesh;$/;"	m	class:Ground
+planeModel	Ground.hpp	/^  std::unique_ptr<Model> planeModel;$/;"	m	class:Ground
+player	main.cpp	/^static Body player = {0};$/;"	v	file:
+position	Object.hpp	/^  Vector3 position;$/;"	m	class:Object
 position	main.cpp	/^  Vector3 position;$/;"	m	struct:__anon1	file:
-printvec3	main.cpp	/^void printvec3(Vector3 vec) {$/;"	f
-sensitivity	main.cpp	/^static Vector2 sensitivity = { 0.001f, 0.001f };$/;"	v	file:
-setPosition	Object.cpp	/^void Object::setPosition(Vector3 position) {$/;"	f	class:Object
-setShader	Object.cpp	/^void Object::setShader(Shader shader) {$/;"	f	class:Object
-shader	Object.hpp	/^    Shader shader;$/;"	m	class:Object
-startX	GroundTiler.hpp	/^    const float startX;$/;"	m	class:GroundTile
-startY	GroundTiler.hpp	/^    const float startY;$/;"	m	class:GroundTile
-tile	GroundTiler.hpp	/^    Ground tile;$/;"	m	class:GroundTile
-tiles	GroundTiler.hpp	/^    std::vector<GroundTile> tiles;$/;"	m	class:GroundTiler
-touchesGround	GroundTiler.cpp	/^Vector3 touchesGround(Vector3 objectPos) {$/;"	f
-uint	main.cpp	18;"	d	file:
+printvec3	main.cpp	/^void printvec3(Vector3 vec) { printf("\\t(%f, %f, %f) ", vec.x, vec.y, vec.z); }$/;"	f
+sensitivity	main.cpp	/^static Vector2 sensitivity = {0.001f, 0.001f};$/;"	v	file:
+setPosition	Object.cpp	/^void Object::setPosition(Vector3 position) { this->position = position; }$/;"	f	class:Object
+setShader	Object.cpp	/^void Object::setShader(Shader shader) { this->shader = shader; }$/;"	f	class:Object
+shader	Object.hpp	/^  Shader shader;$/;"	m	class:Object
+startX	GroundTiler.hpp	/^  const float startX;$/;"	m	class:GroundTile
+startY	GroundTiler.hpp	/^  const float startY;$/;"	m	class:GroundTile
+tile	GroundTiler.hpp	/^  Ground tile;$/;"	m	class:GroundTile
+tiles	GroundTiler.hpp	/^  std::vector<GroundTile> tiles;$/;"	m	class:GroundTiler
+touchesGround	GroundTiler.cpp	/^Vector3 touchesGround(Vector3 objectPos) { return {0.0f, 0.0f, 0.0f}; }$/;"	f
+uint	main.cpp	17;"	d	file:
 unloadResources	Ground.cpp	/^void Ground::unloadResources() {$/;"	f	class:Ground
 unloadResources	GroundTiler.cpp	/^void GroundTiler::unloadResources() {$/;"	f	class:GroundTiler
 velocity	main.cpp	/^  Vector3 velocity;$/;"	m	struct:__anon1	file:
-vsPath	GroundTiler.hpp	/^    const std::string vsPath;$/;"	m	class:GroundTiler
+vsPath	GroundTiler.hpp	/^  const std::string vsPath;$/;"	m	class:GroundTiler
 walkLerp	main.cpp	/^static float walkLerp = 0.0f;$/;"	v	file:
-xExtent	GroundTiler.hpp	/^    const int xExtent;$/;"	m	class:GroundTiler
-zExtent	GroundTiler.hpp	/^    const int zExtent;$/;"	m	class:GroundTiler
+xExtent	GroundTiler.hpp	/^  const int xExtent;$/;"	m	class:GroundTiler
+zExtent	GroundTiler.hpp	/^  const int zExtent;$/;"	m	class:GroundTiler
