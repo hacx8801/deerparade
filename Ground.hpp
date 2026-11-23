@@ -10,9 +10,8 @@
 
 class Ground : public Object {
 public:
-  Ground(std::string vsPath, std::string fsPath);
-  Ground(std::string vsPath, std::string fsPath, int width, int length,
-         Vector3 origin);
+  Ground(Shader &shader);
+  Ground(Shader &shader, int width, int length, Vector3 origin);
   Ground(const Ground &other);
   Ground &operator=(Ground &&ground);
   void unloadResources();
@@ -31,8 +30,7 @@ private:
 
   int leastGreaterTwo(int n);
   void drawPlaneHeights(int width, int height, int numSamples) const;
-  void initModel(std::string vsPath, std::string fsPath,
-                 Image &perlinNoiseImage);
+  void initModel(Image &perlinNoiseImage);
   void initPlaneHeights(const Image &perlinNoiseImage, const int numSamples);
 };
 

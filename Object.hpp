@@ -7,14 +7,16 @@
 class Object {
 public:
   // pure virtual function
+  Object(Shader &shader) : shader{shader} {};
+  ~Object() = default;
   virtual void draw() const = 0;
-  virtual void setShader(Shader shader);
-  virtual Shader getShader() const;
+  virtual void setShader(Shader &shader);
+  virtual Shader &getShader() const;
   virtual void setPosition(Vector3 position);
   virtual Vector3 getPosition() const;
 
 protected:
-  Shader shader;
+  Shader &shader;
 
 private:
   Vector3 position;

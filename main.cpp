@@ -1,7 +1,6 @@
 #include "Ground.hpp"
 #include "GroundTiler.hpp"
 #include <ctime>
-#include <iostream>
 #include <raylib.h>
 #include <raymath.h>
 #include <vector>
@@ -78,12 +77,15 @@ int main(void) {
   uint width = 50;
   uint height = 50;
 
-  Vector3 origin = (Vector3){0.0f, 0.0f, 0.0f};
+  /* Vector3 origin = (Vector3){0.0f, 0.0f, 0.0f}; */
   /* FIXME: allocate shader outside of groundtile to pass by reference */
   /* GroundTiler ground = GroundTiler("terrain_shader_grass_vs.glsl", */
   /*                                  "terrain_shader_grass_fs.glsl"); */
-  Ground ground =
-      Ground("terrain_shader_grass_vs.glsl", "terrain_shader_grass_fs.glsl");
+
+  Shader shader = LoadShader("terrain_shader_grass_vs.glsl",
+                             "terrain_shader_grass_fs.glsl");
+
+  GroundTiler ground = GroundTiler(shader);
 
   UpdateCameraFPS(&camera);
   DisableCursor();
@@ -172,6 +174,11 @@ int main(void) {
 
   // de-init window and ogl context
   ground.unloadResources();
+
+  if (IsShaderValid(shader)) {
+    UnloadShader(shader);
+  }
+
   CloseWindow();
 
   return 0;

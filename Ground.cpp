@@ -1,14 +1,13 @@
 #include "Ground.hpp"
 #include <cassert>
 
-Ground::Ground(std::string vsPath, std::string fsPath)
-    : Ground(vsPath, fsPath, 50, 50, (Vector3){0.0f, 0.0f, 0.0f}) {}
+Ground::Ground(Shader &shader)
+    : Ground(shader, 50, 50, (Vector3){0.0f, 0.0f, 0.0f}) {}
 
-Ground::Ground(std::string vsPath, std::string fsPath, int width, int length,
-               Vector3 origin)
-    : meshWidth{width}, meshLength{length}, origin{origin} {
+Ground::Ground(Shader &shader, int width, int length, Vector3 origin)
+    : Object{shader}, meshWidth{width}, meshLength{length}, origin{origin} {
   // https://www.raylib.com/examples/shaders/loader.html?name=shaders_vertex_displacement
-  this->setShader(LoadShader(vsPath.c_str(), fsPath.c_str()));
+  this->setShader(shader);
   assert(IsShaderValid(shader));
 
   // create perlin noise to use as texture
@@ -19,12 +18,12 @@ Ground::Ground(std::string vsPath, std::string fsPath, int width, int length,
 
   Image perlinNoiseImage =
       GenImagePerlinNoise(texWidth, texLength, 10, 10, 1.0f);
-  this->initModel(vsPath, fsPath, perlinNoiseImage);
+  this->initModel(perlinNoiseImage);
   this->initPlaneHeights(perlinNoiseImage, 10);
   UnloadImage(perlinNoiseImage);
 }
 
-Ground::Ground(const Ground &other) {
+Ground::Ground(const Ground &other) : Object(other.shader) {
   planeModel = nullptr;
   planeMesh = nullptr;
 
@@ -60,10 +59,10 @@ Ground &Ground::operator=(Ground &&other) {
 
 void Ground::unloadResources() {
 
-  if (IsShaderValid(shader)) {
-    UnloadShader(this->shader);
-    this->shader.id = -1;
-  }
+  /* if (IsShaderValid(shader)) { */
+  /*   UnloadShader(this->shader); */
+  /*   this->shader.id = -1; */
+  /* } */
   UnloadModel(*(this->planeModel));
 }
 
@@ -116,8 +115,7 @@ void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
   }
 }
 
-void Ground::initModel(std::string vsPath, std::string fsPath,
-                       Image &perlinNoiseImage) {
+void Ground::initModel(Image &perlinNoiseImage) {
   Texture perlinNoiseMap = LoadTextureFromImage(perlinNoiseImage);
 
   rlEnableShader(shader.id);

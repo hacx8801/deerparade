@@ -9,8 +9,7 @@
 class GroundTile {
 
 public:
-  GroundTile(int width, int length, Vector3 origin, std::string vsPath,
-             std::string fsPath);
+  GroundTile(int width, int length, Vector3 origin, Shader &shader);
   const Vector3 &getOrigin() const;
   Ground tile;
   Vector3 origin;
@@ -24,8 +23,8 @@ public:
 // tiles ground objects based on player position
 class GroundTiler : public Object {
 public:
-  GroundTiler(std::string vsPath, std::string fsPath);
-  GroundTiler(std::string vsPath, std::string fsPath, int width, int length);
+  GroundTiler(Shader &shader);
+  GroundTiler(Shader &shader, int width, int length);
   void unloadResources();
   void draw() const override;
   Vector3 touchesGround(Vector3 objectPos) const;

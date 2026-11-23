@@ -4,44 +4,45 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-AIR_DRAG	main.cpp	23;"	d	file:
-BOTTOM_HEIGHT	main.cpp	28;"	d	file:
+AIR_DRAG	main.cpp	22;"	d	file:
+BOTTOM_HEIGHT	main.cpp	27;"	d	file:
 Body	main.cpp	/^} Body;$/;"	t	typeref:struct:__anon1	file:
 CFILES	Makefile	/^CFILES = main.cpp World.cpp Object.cpp Ground.cpp GroundTiler.cpp$/;"	m
 COMPILER	Makefile	/^COMPILER = g++$/;"	m
-CONTROL	main.cpp	25;"	d	file:
-CROUCH_HEIGHT	main.cpp	26;"	d	file:
-CROUCH_SPEED	main.cpp	12;"	d	file:
+CONTROL	main.cpp	24;"	d	file:
+CROUCH_HEIGHT	main.cpp	25;"	d	file:
+CROUCH_SPEED	main.cpp	11;"	d	file:
 DEFAULT_LENGTH	GroundTiler.hpp	/^  static const int DEFAULT_LENGTH = 50;$/;"	m	class:GroundTiler
 DEFAULT_WIDTH	GroundTiler.hpp	/^  static const int DEFAULT_WIDTH = 50;$/;"	m	class:GroundTiler
 DrawLevel	main.cpp	/^void DrawLevel(Ground &ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
 DrawLevel	main.cpp	/^void DrawLevel(GroundTiler &ground, std::vector<Vector3> terrain, int arrSize) {$/;"	f
-FRICTION	main.cpp	21;"	d	file:
-GRAVITY	main.cpp	10;"	d	file:
+FRICTION	main.cpp	20;"	d	file:
+GRAVITY	main.cpp	9;"	d	file:
 GROUNDTILER_H_	GroundTiler.hpp	2;"	d
 GROUND_H_	Ground.hpp	2;"	d
 GenerateTerrainArray	main.cpp	/^void GenerateTerrainArray(std::vector<Vector3> &arr, int arrSize, int width,$/;"	f
 GetRandom	main.cpp	/^float GetRandom(unsigned int scalar) {$/;"	f
-Ground	Ground.cpp	/^Ground::Ground(const Ground &other) {$/;"	f	class:Ground
-Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath)$/;"	f	class:Ground
-Ground	Ground.cpp	/^Ground::Ground(std::string vsPath, std::string fsPath, int width, int length,$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(Shader &shader)$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(Shader &shader, int width, int length, Vector3 origin)$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(const Ground &other) : Object(other.shader) {$/;"	f	class:Ground
 Ground	Ground.hpp	/^class Ground : public Object {$/;"	c
-GroundTile	GroundTiler.cpp	/^GroundTile::GroundTile(int width, int length, Vector3 origin,$/;"	f	class:GroundTile
+GroundTile	GroundTiler.cpp	/^GroundTile::GroundTile(int width, int length, Vector3 origin, Shader &shader)$/;"	f	class:GroundTile
 GroundTile	GroundTiler.hpp	/^class GroundTile {$/;"	c
-GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(std::string vsPath, std::string fsPath)$/;"	f	class:GroundTiler
-GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width,$/;"	f	class:GroundTiler
+GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(Shader &shader)$/;"	f	class:GroundTiler
+GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(Shader &shader, int width, int length)$/;"	f	class:GroundTiler
 GroundTiler	GroundTiler.hpp	/^class GroundTiler : public Object {$/;"	c
-JUMP_FORCE	main.cpp	13;"	d	file:
+JUMP_FORCE	main.cpp	12;"	d	file:
 LD_FLAGS	Makefile	/^LD_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -g$/;"	m
-MAX_ACCEL	main.cpp	14;"	d	file:
-MAX_SPEED	main.cpp	11;"	d	file:
-NORMALIZE_INPUT	main.cpp	30;"	d	file:
+MAX_ACCEL	main.cpp	13;"	d	file:
+MAX_SPEED	main.cpp	10;"	d	file:
+NORMALIZE_INPUT	main.cpp	29;"	d	file:
 OBJECT_H_	Object.hpp	2;"	d
 OPTIONS_DEBUG	Makefile	/^OPTIONS_DEBUG = -Og -Wall -Wextra -Wpedantic -Wcast-align -Wcast-qual \\$/;"	m
 OPTIONS_RELEASE	Makefile	/^OPTIONS_RELEASE = -O2 -march=native -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \\$/;"	m
+Object	Object.hpp	/^  Object(Shader &shader) : shader{shader} {};$/;"	f	class:Object
 Object	Object.hpp	/^class Object {$/;"	c
 PROGRAM	Makefile	/^PROGRAM = main.out$/;"	m
-STAND_HEIGHT	main.cpp	27;"	d	file:
+STAND_HEIGHT	main.cpp	26;"	d	file:
 UpdateBody	main.cpp	/^void UpdateBody(Body *body, float rot, char side, char forward,$/;"	f
 UpdateCameraFPS	main.cpp	/^void UpdateCameraFPS(Camera *camera) {$/;"	f
 WORLD_H_	World.hpp	2;"	d
@@ -61,10 +62,10 @@ getHeightAt	GroundTiler.cpp	/^const float GroundTiler::getHeightAt(const float r
 getOrigin	Ground.cpp	/^const Vector3 &Ground::getOrigin() const { return this->origin; }$/;"	f	class:Ground
 getOrigin	GroundTiler.cpp	/^const Vector3 &GroundTile::getOrigin() const { return this->tile.getOrigin(); }$/;"	f	class:GroundTile
 getPosition	Object.cpp	/^Vector3 Object::getPosition() const { return this->position; }$/;"	f	class:Object
-getShader	Object.cpp	/^Shader Object::getShader() const { return this->shader; }$/;"	f	class:Object
+getShader	Object.cpp	/^Shader& Object::getShader() const { return this->shader; }$/;"	f	class:Object
 headLerp	main.cpp	/^static float headLerp = STAND_HEIGHT;$/;"	v	file:
 headTimer	main.cpp	/^static float headTimer = 0.0f;$/;"	v	file:
-initModel	Ground.cpp	/^void Ground::initModel(std::string vsPath, std::string fsPath,$/;"	f	class:Ground
+initModel	Ground.cpp	/^void Ground::initModel(Image &perlinNoiseImage) {$/;"	f	class:Ground
 initPlaneHeights	Ground.cpp	/^void Ground::initPlaneHeights(const Image &perlinNoiseImage,$/;"	f	class:Ground
 isDrawn	GroundTiler.hpp	/^  bool isDrawn;$/;"	m	class:GroundTile
 isGrounded	main.cpp	/^  bool isGrounded;$/;"	m	struct:__anon1	file:
@@ -76,7 +77,7 @@ meshLength	Ground.hpp	/^  int meshLength;$/;"	m	class:Ground
 meshLength	GroundTiler.hpp	/^  const int meshLength;$/;"	m	class:GroundTiler
 meshWidth	Ground.hpp	/^  int meshWidth;$/;"	m	class:Ground
 meshWidth	GroundTiler.hpp	/^  const int meshWidth;$/;"	m	class:GroundTiler
-null	main.cpp	18;"	d	file:
+null	main.cpp	17;"	d	file:
 objects	World.hpp	/^  std::vector<std::unique_ptr<Object>> objects;$/;"	m	class:World
 operator =	Ground.cpp	/^Ground &Ground::operator=(Ground &&other) {$/;"	f	class:Ground
 origin	Ground.hpp	/^  Vector3 origin;$/;"	m	class:Ground
@@ -93,14 +94,14 @@ position	main.cpp	/^  Vector3 position;$/;"	m	struct:__anon1	file:
 printvec3	main.cpp	/^void printvec3(Vector3 vec) { printf("\\t(%f, %f, %f) ", vec.x, vec.y, vec.z); }$/;"	f
 sensitivity	main.cpp	/^static Vector2 sensitivity = {0.001f, 0.001f};$/;"	v	file:
 setPosition	Object.cpp	/^void Object::setPosition(Vector3 position) { this->position = position; }$/;"	f	class:Object
-setShader	Object.cpp	/^void Object::setShader(Shader shader) { this->shader = shader; }$/;"	f	class:Object
-shader	Object.hpp	/^  Shader shader;$/;"	m	class:Object
+setShader	Object.cpp	/^void Object::setShader(Shader &shader) { this->shader = shader; }$/;"	f	class:Object
+shader	Object.hpp	/^  Shader &shader;$/;"	m	class:Object
 startX	GroundTiler.hpp	/^  const float startX;$/;"	m	class:GroundTile
 startY	GroundTiler.hpp	/^  const float startY;$/;"	m	class:GroundTile
 tile	GroundTiler.hpp	/^  Ground tile;$/;"	m	class:GroundTile
 tiles	GroundTiler.hpp	/^  std::vector<std::unique_ptr<GroundTile>> tiles;$/;"	m	class:GroundTiler
 touchesGround	GroundTiler.cpp	/^Vector3 touchesGround(Vector3 objectPos) { return {0.0f, 0.0f, 0.0f}; }$/;"	f
-uint	main.cpp	17;"	d	file:
+uint	main.cpp	16;"	d	file:
 unloadResources	Ground.cpp	/^void Ground::unloadResources() {$/;"	f	class:Ground
 unloadResources	GroundTiler.cpp	/^void GroundTiler::unloadResources() {$/;"	f	class:GroundTiler
 velocity	main.cpp	/^  Vector3 velocity;$/;"	m	struct:__anon1	file:

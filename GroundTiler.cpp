@@ -1,24 +1,20 @@
 #include "GroundTiler.hpp"
 #include <algorithm>
-#include <iostream>
 
 /* GroundTile class member implementations */
-GroundTile::GroundTile(int width, int length, Vector3 origin,
-                       std::string vsPath, std::string fsPath)
-    : tile{Ground(vsPath, fsPath, width, length, origin)}, origin{origin},
+GroundTile::GroundTile(int width, int length, Vector3 origin, Shader &shader)
+    : tile{Ground(shader, width, length, origin)}, origin{origin},
       startX{origin.x - (width / 2.0f)}, endX{origin.x + (width / 2.0f)},
       startY{origin.y - (length / 2.0f)}, endY{origin.y + (length / 2.0f)} {}
 
 const Vector3 &GroundTile::getOrigin() const { return this->tile.getOrigin(); }
 
 /* GroundTiler class member implementations */
-GroundTiler::GroundTiler(std::string vsPath, std::string fsPath)
-    : GroundTiler(vsPath, fsPath, DEFAULT_WIDTH, DEFAULT_LENGTH) {}
-GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width,
-                         int length)
-    : vsPath{vsPath}, fsPath{fsPath}, meshWidth{width}, meshLength{length},
-      arrayWidth{3}, xExtent{meshWidth * arrayWidth},
-      zExtent{meshLength * arrayWidth} {
+GroundTiler::GroundTiler(Shader &shader)
+    : GroundTiler(shader, DEFAULT_WIDTH, DEFAULT_LENGTH) {}
+GroundTiler::GroundTiler(Shader &shader, int width, int length)
+    : Object{shader}, meshWidth{width}, meshLength{length}, arrayWidth{3},
+      xExtent{meshWidth * arrayWidth}, zExtent{meshLength * arrayWidth} {
   // get the world coordinate offset for the top left of the tile grid
   float xOffset = floor(arrayWidth / 2.0f);
   float zOffset = floor(arrayWidth / 2.0f);
@@ -38,7 +34,7 @@ GroundTiler::GroundTiler(std::string vsPath, std::string fsPath, int width,
       origin.z += startPos.z;
 
       this->tiles.emplace_back(std::make_unique<GroundTile>(
-          GroundTile(meshWidth, meshLength, origin, vsPath, fsPath)));
+          GroundTile(meshWidth, meshLength, origin, shader)));
     }
   }
 }
