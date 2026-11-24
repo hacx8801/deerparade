@@ -82,11 +82,6 @@ int main(void) {
   /* GroundTiler ground = GroundTiler("terrain_shader_grass_vs.glsl", */
   /*                                  "terrain_shader_grass_fs.glsl"); */
 
-  Shader shader = LoadShader("terrain_shader_grass_vs.glsl",
-                             "terrain_shader_grass_fs.glsl");
-
-  GroundTiler ground = GroundTiler(shader);
-
   UpdateCameraFPS(&camera);
   DisableCursor();
 
@@ -97,6 +92,19 @@ int main(void) {
 
   std::vector<Vector3> terrain;
   GenerateTerrainArray(terrain, arrSize, width, height);
+
+  // billboard testing
+  Image tree = LoadImage("./tree.png");
+  ImageResize(&tree, tree.width * 3, tree.height * 3);
+
+  Texture texBillboard = LoadTextureFromImage(tree); // Our billboard
+                                                     //
+  Shader shader = LoadShader("terrain_shader_grass_vs.glsl",
+                             "terrain_shader_grass_fs.glsl");
+
+  GroundTiler ground = GroundTiler(shader);
+  Vector3 billPositionStatic = {0.0f, 5.0f,
+                                0.0f}; // Position of static billboard
 
   // main game loop
   while (!WindowShouldClose()) {
@@ -154,6 +162,7 @@ int main(void) {
     BeginMode3D(camera);
 
     DrawLevel(ground, terrain, arrSize);
+    DrawBillboard(camera, texBillboard, billPositionStatic, 10.0f, WHITE);
 
     EndMode3D();
 

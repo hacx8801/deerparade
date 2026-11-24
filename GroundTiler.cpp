@@ -13,7 +13,7 @@ const Vector3 &GroundTile::getOrigin() const { return this->tile.getOrigin(); }
 GroundTiler::GroundTiler(Shader &shader)
     : GroundTiler(shader, DEFAULT_WIDTH, DEFAULT_LENGTH) {}
 GroundTiler::GroundTiler(Shader &shader, int width, int length)
-    : Object{shader}, meshWidth{width}, meshLength{length}, arrayWidth{3},
+    : Object{shader}, meshWidth{width}, meshLength{length}, arrayWidth{5},
       xExtent{meshWidth * arrayWidth}, zExtent{meshLength * arrayWidth} {
   // get the world coordinate offset for the top left of the tile grid
   float xOffset = floor(arrayWidth / 2.0f);
