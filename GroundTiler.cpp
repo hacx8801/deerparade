@@ -59,6 +59,10 @@ void GroundTiler::draw() const {
 
 Vector3 touchesGround(Vector3 objectPos) { return {0.0f, 0.0f, 0.0f}; }
 
+const float GroundTiler::getMaxX() { return this->xExtent; }
+
+const float GroundTiler::getMaxZ() { return this->zExtent; }
+
 const float GroundTiler::getHeightAt(const float rawXPosition,
                                      const float rawZPosition) const {
 

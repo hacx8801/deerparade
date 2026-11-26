@@ -1,6 +1,8 @@
 #include "Ground.hpp"
 #include "GroundTiler.hpp"
+#include <algorithm>
 #include <ctime>
+#include <iostream>
 #include <raylib.h>
 #include <raymath.h>
 #include <vector>
@@ -27,6 +29,91 @@
 #define BOTTOM_HEIGHT 0.5f
 
 #define NORMALIZE_INPUT 0
+
+#define TREE_DENSITY 100
+
+float getDistance(float x1, float z1, float x2, float z2);
+
+int randInRange(int min, int max) {
+  return min + (int)(rand() / (double)(RAND_MAX) * (max - min + 1));
+}
+
+bool checkValidTreePlacement(const Vector3 &oldPos, const Vector3 &newPos,
+                             const float MIN_DIST) {
+  float dist = getDistance(oldPos.x, oldPos.z, newPos.x, newPos.z);
+  return dist > MIN_DIST;
+}
+
+void initTreeLocations(std::vector<std::pair<Vector3, float>> &positions,
+                       GroundTiler &ground, float treeDensity, int xMax,
+                       int zMax, const int MAX_TREES) {
+
+  const float heightOffset = 2.5f;
+  const float fracBottom = 100.0f;
+  treeDensity = std::max(0.0f, std::min(fracBottom, treeDensity));
+
+  // generate a value in (0, 1)
+  const float treeFactor = treeDensity / fracBottom;
+
+  // O(n^2)...
+  for (int i = 0; i < MAX_TREES;) {
+    float randval = randInRange(0, 1);
+    if (randval < treeFactor) {
+      i++;
+      float xPos = randInRange(-xMax / 2.0f, xMax / 2.0f);
+      float zPos = randInRange(-zMax / 2.0f, zMax / 2.0f);
+      float yPos = ground.getHeightAt(xPos, zPos) + heightOffset;
+
+      Vector3 pos = (Vector3){xPos, yPos, zPos};
+
+      bool flag = true;
+      for (unsigned int j = 0; j < positions.size(); j++) {
+        flag = checkValidTreePlacement(positions.at(j).first, pos, 20.0f);
+      }
+
+      std::cout << "flag is " << flag << std::endl;
+      if (flag) {
+        positions.emplace_back(
+            std::make_pair<Vector3, float>(std::move(pos), -1.0f));
+      }
+    }
+  }
+}
+
+float getDistance(float x1, float z1, float x2, float z2) {
+  return std::sqrt((x1 - x2) * (x1 - x2) + (z1 - z2) * (z1 - z2));
+}
+
+void drawTreeLocations(Texture &texTree,
+                       std::vector<std::pair<Vector3, float>> &positions,
+                       Camera &camera, Shader &treeShader) {
+  const int MIN_TREE_SIZE = 8;
+  const int MAX_TREE_SIZE = 16;
+
+  int len = positions.size();
+  for (int i = 0; i < len; i++) {
+    positions.at(i).second =
+        getDistance(camera.position.x, camera.position.z,
+                    positions.at(i).first.x, positions.at(i).first.z);
+  }
+
+  auto cmp = [](const std::pair<Vector3, float> &a,
+                const std::pair<Vector3, float> &b) {
+    if (fabs(a.second - b.second) < 0.1) {
+      return a.first.y > b.first.y;
+    }
+    return a.second > b.second;
+  };
+
+  std::sort(positions.begin(), positions.end(), cmp);
+
+  BeginShaderMode(treeShader);
+  for (int i = 0; i < len; i++) {
+    float size = 10.0f; //(float)randInRange(MIN_TREE_SIZE, MAX_TREE_SIZE);
+    DrawBillboard(camera, texTree, positions.at(i).first, size, WHITE);
+  }
+  EndShaderMode();
+}
 
 // body structure
 typedef struct {
@@ -98,13 +185,21 @@ int main(void) {
   ImageResize(&tree, tree.width * 3, tree.height * 3);
 
   Texture texBillboard = LoadTextureFromImage(tree); // Our billboard
-                                                     //
+
   Shader shader = LoadShader("terrain_shader_grass_vs.glsl",
                              "terrain_shader_grass_fs.glsl");
+  Shader treeShader = LoadShader(NULL, "tree_shader_fs.glsl");
 
   GroundTiler ground = GroundTiler(shader);
   Vector3 billPositionStatic = {0.0f, 5.1f,
                                 0.0f}; // Position of static billboard
+
+  std::vector<std::pair<Vector3, float>> treePositions;
+  initTreeLocations(treePositions, ground, TREE_DENSITY, ground.getMaxX(),
+                    ground.getMaxZ(), 200);
+
+  // minimize z fighting in billboards
+  rlSetClipPlanes(0.1, 200);
 
   // main game loop
   while (!WindowShouldClose()) {
@@ -162,7 +257,7 @@ int main(void) {
     BeginMode3D(camera);
 
     DrawLevel(ground, terrain, arrSize);
-    DrawBillboard(camera, texBillboard, billPositionStatic, 10.0f, WHITE);
+    drawTreeLocations(texBillboard, treePositions, camera, treeShader);
 
     EndMode3D();
 
@@ -195,7 +290,6 @@ int main(void) {
 
 void UpdateBody(Body *body, float rot, char side, char forward,
                 bool jumpPressed, bool crouchHold, float floorHeight) {
-
   Vector2 input = (Vector2){(float)side, (float)-forward};
 
 #ifdef NORMALIZE_INPUT
@@ -210,8 +304,8 @@ void UpdateBody(Body *body, float rot, char side, char forward,
   }
 
   // if the body is in the air, account for gravity acceleration
-  // m/s each frame is acceleration if (!body->isGrounded) body->velocity.y -=
-  // GRAVITY*delta;
+  // m/s each frame is acceleration if (!body->isGrounded) body->velocity.y
+  // -= GRAVITY*delta;
   if (!body->isGrounded)
     body->velocity.y -= GRAVITY * delta;
 
@@ -311,7 +405,6 @@ void UpdateCameraFPS(Camera *camera) {
 
 void GenerateTerrainArray(std::vector<Vector3> &arr, int arrSize, int width,
                           int height) {
-
   arr = std::vector<Vector3>();
 
   for (int i = 0; i < arrSize; i++) {

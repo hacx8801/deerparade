@@ -28,6 +28,8 @@ public:
   void unloadResources();
   void draw() const override;
   Vector3 touchesGround(Vector3 objectPos) const;
+  const float getMaxX();
+  const float getMaxZ();
   const float getHeightAt(const float rawXPosition,
                           const float rawZPosition) const;
 
