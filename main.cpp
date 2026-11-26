@@ -103,7 +103,7 @@ int main(void) {
                              "terrain_shader_grass_fs.glsl");
 
   GroundTiler ground = GroundTiler(shader);
-  Vector3 billPositionStatic = {0.0f, 5.0f,
+  Vector3 billPositionStatic = {0.0f, 5.1f,
                                 0.0f}; // Position of static billboard
 
   // main game loop

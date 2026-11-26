@@ -62,7 +62,7 @@ getHeightAt	GroundTiler.cpp	/^const float GroundTiler::getHeightAt(const float r
 getOrigin	Ground.cpp	/^const Vector3 &Ground::getOrigin() const { return this->origin; }$/;"	f	class:Ground
 getOrigin	GroundTiler.cpp	/^const Vector3 &GroundTile::getOrigin() const { return this->tile.getOrigin(); }$/;"	f	class:GroundTile
 getPosition	Object.cpp	/^Vector3 Object::getPosition() const { return this->position; }$/;"	f	class:Object
-getShader	Object.cpp	/^Shader& Object::getShader() const { return this->shader; }$/;"	f	class:Object
+getShader	Object.cpp	/^Shader &Object::getShader() const { return this->shader; }$/;"	f	class:Object
 headLerp	main.cpp	/^static float headLerp = STAND_HEIGHT;$/;"	v	file:
 headTimer	main.cpp	/^static float headTimer = 0.0f;$/;"	v	file:
 initModel	Ground.cpp	/^void Ground::initModel(Image &perlinNoiseImage) {$/;"	f	class:Ground
