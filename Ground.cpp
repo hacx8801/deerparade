@@ -1,10 +1,14 @@
 #include "Ground.hpp"
 #include <cassert>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 Ground::Ground(Shader &shader)
-    : Ground(shader, 50, 50, (Vector3){0.0f, 0.0f, 0.0f}) {}
+    : Ground(shader, 50, 50, 0, 0, (Vector3){0.0f, 0.0f, 0.0f}) {}
 
-Ground::Ground(Shader &shader, int width, int length, Vector3 origin)
+Ground::Ground(Shader &shader, int width, int length, int xIdx, int zIdx,
+               Vector3 origin)
     : Object{shader}, meshWidth{width}, meshLength{length}, origin{origin} {
   // https://www.raylib.com/examples/shaders/loader.html?name=shaders_vertex_displacement
   this->setShader(shader);
@@ -13,27 +17,37 @@ Ground::Ground(Shader &shader, int width, int length, Vector3 origin)
   // create perlin noise to use as texture
   int texWidth = leastGreaterTwo(width * 10);
   int texLength = leastGreaterTwo(length * 10);
-  /* std::cout << "size w is: " << texWidth << std::endl; */
-  /* std::cout << "size l is: " << texLength << std::endl; */
+  std::cout << "xidx is: " << xIdx << std::endl;
+  std::cout << "zidx l is: " << zIdx << std::endl;
 
-  Image perlinNoiseImage =
-      GenImagePerlinNoise(texWidth, texLength, 10, 10, 1.0f);
-  this->initModel(perlinNoiseImage);
-  this->initPlaneHeights(perlinNoiseImage, 10);
-  UnloadImage(perlinNoiseImage);
+  perlinNoiseImage = std::make_unique<Image>(GenImagePerlinNoise(
+      texWidth, texLength, xIdx * texWidth, zIdx * texLength, 1.0f));
+  assert(IsImageValid(*perlinNoiseImage));
+
+  std::stringstream str;
+  str << zIdx << xIdx << ".png";
+  std::string strc = str.str();
+
+  /* ExportImage(perlinNoiseImage, strc.c_str()); */
+  this->initModel(*perlinNoiseImage);
+  this->initPlaneHeights(*perlinNoiseImage, 10);
+  /* UnloadImage(perlinNoiseImage); */
 }
 
 Ground::Ground(const Ground &other) : Object(other.shader) {
   planeModel = nullptr;
   planeMesh = nullptr;
+  perlinNoiseImage = nullptr;
 
   planeModel = std::make_unique<Model>(*(other.planeModel));
   planeMesh = std::make_unique<Mesh>(*(other.planeMesh));
+  perlinNoiseImage = std::make_unique<Image>(*(other.perlinNoiseImage));
   planeHeights = other.planeHeights;
 
   meshWidth = other.meshWidth;
   meshLength = other.meshLength;
   origin = other.origin;
+  texture = other.texture;
 }
 
 Ground &Ground::operator=(Ground &&other) {
@@ -41,17 +55,21 @@ Ground &Ground::operator=(Ground &&other) {
   if (this != &other) {
     planeModel = nullptr;
     planeMesh = nullptr;
+    perlinNoiseImage = nullptr;
 
     planeModel = std::move(other.planeModel);
     planeMesh = std::move(other.planeMesh);
+    perlinNoiseImage = std::move(other.perlinNoiseImage);
     planeHeights = std::move(other.planeHeights);
 
     meshWidth = other.meshWidth;
     meshLength = other.meshLength;
     origin = other.origin;
+    texture = other.texture;
 
     other.planeModel = nullptr;
     other.planeMesh = nullptr;
+    other.perlinNoiseImage = nullptr;
   }
 
   return *this;
@@ -69,6 +87,9 @@ void Ground::unloadResources() {
 void Ground::draw() const {
 
   BeginShaderMode(shader);
+
+  /* int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap"); */
+  /* SetShaderValueTexture(shader, perlinNoiseMapLoc, texture); */
 
   DrawModel(*(this->planeModel), this->origin, 1.0f, (Color){0, 0, 0});
 
@@ -116,13 +137,15 @@ void Ground::drawPlaneHeights(int width, int height, int numSamples) const {
 }
 
 void Ground::initModel(Image &perlinNoiseImage) {
-  Texture perlinNoiseMap = LoadTextureFromImage(perlinNoiseImage);
+  /* tex = LoadTextureFromImage(perlinNoiseImage); */
+  Texture2D texture = LoadTextureFromImage(perlinNoiseImage);
+  SetTextureWrap(texture, TEXTURE_WRAP_CLAMP);
 
-  rlEnableShader(shader.id);
-  int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap");
-  rlActiveTextureSlot(1);
-  rlEnableTexture(perlinNoiseMap.id);
-  rlSetUniformSampler(perlinNoiseMapLoc, 1);
+  /* rlEnableShader(shader.id); */
+  /* int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap"); */
+  /* rlActiveTextureSlot(1); */
+  /* rlEnableTexture(tex.id); */
+  /* rlSetUniformSampler(perlinNoiseMapLoc, 1); */
 
   this->planeMesh = std::make_unique<Mesh>(
       GenMeshPlane(meshWidth, meshLength, meshWidth, meshLength));
@@ -130,7 +153,7 @@ void Ground::initModel(Image &perlinNoiseImage) {
   this->planeModel =
       std::make_unique<Model>(LoadModelFromMesh(*(this->planeMesh)));
   this->planeModel->materials[0].shader = this->shader;
-  rlDisableShader();
+  this->planeModel->materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 }
 
 void Ground::initPlaneHeights(const Image &perlinNoiseImage,

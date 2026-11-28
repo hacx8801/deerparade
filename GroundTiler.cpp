@@ -2,14 +2,16 @@
 #include <algorithm>
 
 /* GroundTile class member implementations */
-GroundTile::GroundTile(int width, int length, Vector3 origin, Shader &shader)
-    : tile{Ground(shader, width, length, origin)}, origin{origin},
+GroundTile::GroundTile(int width, int length, int xIdx, int zIdx,
+                       Vector3 origin, Shader &shader)
+    : tile{Ground(shader, width, length, xIdx, zIdx, origin)}, origin{origin},
       startX{origin.x - (width / 2.0f)}, endX{origin.x + (width / 2.0f)},
       startY{origin.y - (length / 2.0f)}, endY{origin.y + (length / 2.0f)} {}
 
 const Vector3 &GroundTile::getOrigin() const { return this->tile.getOrigin(); }
 
 /* GroundTiler class member implementations */
+
 GroundTiler::GroundTiler(Shader &shader)
     : GroundTiler(shader, DEFAULT_WIDTH, DEFAULT_LENGTH) {}
 GroundTiler::GroundTiler(Shader &shader, int width, int length)
@@ -27,14 +29,14 @@ GroundTiler::GroundTiler(Shader &shader, int width, int length)
   for (int z = 0; z < arrayWidth; z++) {
     for (int x = 0; x < arrayWidth; x++) {
 
-      Vector3 origin =
-          (Vector3){(float)x * meshWidth, 0.0f, (float)z * meshLength};
+      Vector3 origin = (Vector3){(float)x * (meshWidth - 0.3f), 0.0f,
+                                 (float)z * (meshLength - 0.3f)};
 
       origin.x += startPos.x;
       origin.z += startPos.z;
 
       this->tiles.emplace_back(std::make_unique<GroundTile>(
-          GroundTile(meshWidth, meshLength, origin, shader)));
+          GroundTile(meshWidth, meshLength, x, z, origin, shader)));
     }
   }
 }

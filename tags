@@ -23,10 +23,10 @@ GROUND_H_	Ground.hpp	2;"	d
 GenerateTerrainArray	main.cpp	/^void GenerateTerrainArray(std::vector<Vector3> &arr, int arrSize, int width,$/;"	f
 GetRandom	main.cpp	/^float GetRandom(unsigned int scalar) {$/;"	f
 Ground	Ground.cpp	/^Ground::Ground(Shader &shader)$/;"	f	class:Ground
-Ground	Ground.cpp	/^Ground::Ground(Shader &shader, int width, int length, Vector3 origin)$/;"	f	class:Ground
+Ground	Ground.cpp	/^Ground::Ground(Shader &shader, int width, int length, int xIdx, int zIdx,$/;"	f	class:Ground
 Ground	Ground.cpp	/^Ground::Ground(const Ground &other) : Object(other.shader) {$/;"	f	class:Ground
 Ground	Ground.hpp	/^class Ground : public Object {$/;"	c
-GroundTile	GroundTiler.cpp	/^GroundTile::GroundTile(int width, int length, Vector3 origin, Shader &shader)$/;"	f	class:GroundTile
+GroundTile	GroundTiler.cpp	/^GroundTile::GroundTile(int width, int length, int xIdx, int zIdx,$/;"	f	class:GroundTile
 GroundTile	GroundTiler.hpp	/^class GroundTile {$/;"	c
 GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(Shader &shader)$/;"	f	class:GroundTiler
 GroundTiler	GroundTiler.cpp	/^GroundTiler::GroundTiler(Shader &shader, int width, int length)$/;"	f	class:GroundTiler
@@ -92,6 +92,7 @@ origin	GroundTiler.hpp	/^  Vector3 origin;$/;"	m	class:GroundTile
 override	Ground.hpp	/^  void draw() const override;$/;"	m	class:Ground
 override	GroundTiler.hpp	/^  void draw() const override;$/;"	m	class:GroundTiler
 override	World.hpp	/^  void draw() const override;$/;"	m	class:World
+perlinNoiseImage	Ground.hpp	/^  std::unique_ptr<Image> perlinNoiseImage;$/;"	m	class:Ground
 planeHeights	Ground.hpp	/^  std::vector<float> planeHeights;$/;"	m	class:Ground
 planeMesh	Ground.hpp	/^  std::unique_ptr<Mesh> planeMesh;$/;"	m	class:Ground
 planeModel	Ground.hpp	/^  std::unique_ptr<Model> planeModel;$/;"	m	class:Ground
@@ -106,6 +107,7 @@ setShader	Object.cpp	/^void Object::setShader(Shader &shader) { this->shader = s
 shader	Object.hpp	/^  Shader &shader;$/;"	m	class:Object
 startX	GroundTiler.hpp	/^  const float startX;$/;"	m	class:GroundTile
 startY	GroundTiler.hpp	/^  const float startY;$/;"	m	class:GroundTile
+texture	Ground.hpp	/^  Texture2D texture;$/;"	m	class:Ground
 tile	GroundTiler.hpp	/^  Ground tile;$/;"	m	class:GroundTile
 tiles	GroundTiler.hpp	/^  std::vector<std::unique_ptr<GroundTile>> tiles;$/;"	m	class:GroundTiler
 touchesGround	GroundTiler.cpp	/^Vector3 touchesGround(Vector3 objectPos) { return {0.0f, 0.0f, 0.0f}; }$/;"	f

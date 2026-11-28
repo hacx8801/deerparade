@@ -71,7 +71,7 @@ void initTreeLocations(std::vector<std::pair<Vector3, float>> &positions,
         flag = checkValidTreePlacement(positions.at(j).first, pos, 20.0f);
       }
 
-      std::cout << "flag is " << flag << std::endl;
+      /* std::cout << "flag is " << flag << std::endl; */
       if (flag) {
         positions.emplace_back(
             std::make_pair<Vector3, float>(std::move(pos), -1.0f));
@@ -188,6 +188,7 @@ int main(void) {
 
   Shader shader = LoadShader("terrain_shader_grass_vs.glsl",
                              "terrain_shader_grass_fs.glsl");
+
   Shader treeShader = LoadShader(NULL, "tree_shader_fs.glsl");
 
   GroundTiler ground = GroundTiler(shader);
@@ -199,7 +200,6 @@ int main(void) {
                     ground.getMaxZ(), 200);
 
   // minimize z fighting in billboards
-  rlSetClipPlanes(0.1, 200);
 
   // main game loop
   while (!WindowShouldClose()) {

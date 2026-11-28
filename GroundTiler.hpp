@@ -9,7 +9,8 @@
 class GroundTile {
 
 public:
-  GroundTile(int width, int length, Vector3 origin, Shader &shader);
+  GroundTile(int width, int length, int xIdx, int zIdx, Vector3 origin,
+             Shader &shader);
   const Vector3 &getOrigin() const;
   Ground tile;
   Vector3 origin;

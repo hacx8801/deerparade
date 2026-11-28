@@ -11,7 +11,8 @@
 class Ground : public Object {
 public:
   Ground(Shader &shader);
-  Ground(Shader &shader, int width, int length, Vector3 origin);
+  Ground(Shader &shader, int width, int length, int xIdx, int zIdx,
+         Vector3 origin);
   Ground(const Ground &other);
   Ground &operator=(Ground &&ground);
   void unloadResources();
@@ -23,9 +24,11 @@ public:
 private:
   std::unique_ptr<Model> planeModel;
   std::unique_ptr<Mesh> planeMesh;
+  std::unique_ptr<Image> perlinNoiseImage;
   std::vector<float> planeHeights;
   int meshWidth;
   int meshLength;
+  Texture2D texture;
   Vector3 origin;
 
   int leastGreaterTwo(int n);
