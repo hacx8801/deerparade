@@ -29,6 +29,7 @@ private:
   int meshWidth;
   int meshLength;
   Texture2D texture;
+  Texture2D grass;
   Vector3 origin;
 
   int leastGreaterTwo(int n);

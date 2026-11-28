@@ -11,6 +11,7 @@ uniform mat4 matModel;
 uniform mat4 matNormal;
 
 uniform sampler2D perlinNoiseMap;
+uniform sampler2D grass;
 
 // Output vertex attributes (to fragment shader)
 out vec3 fragPosition;

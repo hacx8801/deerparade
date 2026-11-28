@@ -17,21 +17,21 @@ Ground::Ground(Shader &shader, int width, int length, int xIdx, int zIdx,
   // create perlin noise to use as texture
   int texWidth = leastGreaterTwo(width * 10);
   int texLength = leastGreaterTwo(length * 10);
-  std::cout << "xidx is: " << xIdx << std::endl;
-  std::cout << "zidx l is: " << zIdx << std::endl;
+  /* std::cout << "xidx is: " << xIdx << std::endl; */
+  /* std::cout << "zidx l is: " << zIdx << std::endl; */
 
   perlinNoiseImage = std::make_unique<Image>(GenImagePerlinNoise(
       texWidth, texLength, xIdx * texWidth, zIdx * texLength, 1.0f));
   assert(IsImageValid(*perlinNoiseImage));
 
-  std::stringstream str;
-  str << zIdx << xIdx << ".png";
-  std::string strc = str.str();
+  // load grass texture
+  Image grassImg = LoadImage("./grass.png");
+  grass = LoadTextureFromImage(grassImg);
 
-  /* ExportImage(perlinNoiseImage, strc.c_str()); */
+  UnloadImage(grassImg);
+
   this->initModel(*perlinNoiseImage);
   this->initPlaneHeights(*perlinNoiseImage, 10);
-  /* UnloadImage(perlinNoiseImage); */
 }
 
 Ground::Ground(const Ground &other) : Object(other.shader) {
@@ -48,6 +48,7 @@ Ground::Ground(const Ground &other) : Object(other.shader) {
   meshLength = other.meshLength;
   origin = other.origin;
   texture = other.texture;
+  grass = other.grass;
 }
 
 Ground &Ground::operator=(Ground &&other) {
@@ -66,6 +67,7 @@ Ground &Ground::operator=(Ground &&other) {
     meshLength = other.meshLength;
     origin = other.origin;
     texture = other.texture;
+    grass = other.grass;
 
     other.planeModel = nullptr;
     other.planeMesh = nullptr;
@@ -87,11 +89,16 @@ void Ground::unloadResources() {
 void Ground::draw() const {
 
   BeginShaderMode(shader);
+  rlActiveTextureSlot(1);
+  rlEnableTexture(grass.id);
 
-  /* int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap"); */
-  /* SetShaderValueTexture(shader, perlinNoiseMapLoc, texture); */
+  int loc = GetShaderLocation(shader, "grass");
+
+  SetShaderValueTexture(shader, loc, grass);
 
   DrawModel(*(this->planeModel), this->origin, 1.0f, (Color){0, 0, 0});
+
+  rlDisableTexture();
 
   EndShaderMode();
 }
@@ -140,12 +147,6 @@ void Ground::initModel(Image &perlinNoiseImage) {
   /* tex = LoadTextureFromImage(perlinNoiseImage); */
   Texture2D texture = LoadTextureFromImage(perlinNoiseImage);
   SetTextureWrap(texture, TEXTURE_WRAP_CLAMP);
-
-  /* rlEnableShader(shader.id); */
-  /* int perlinNoiseMapLoc = GetShaderLocation(shader, "perlinNoiseMap"); */
-  /* rlActiveTextureSlot(1); */
-  /* rlEnableTexture(tex.id); */
-  /* rlSetUniformSampler(perlinNoiseMapLoc, 1); */
 
   this->planeMesh = std::make_unique<Mesh>(
       GenMeshPlane(meshWidth, meshLength, meshWidth, meshLength));

@@ -4,6 +4,7 @@
 in vec2 fragTexCoord;
 in float height;
 uniform sampler2D perlinNoiseMap;
+uniform sampler2D grass;
 
 // Output fragment color
 out vec4 finalColor;
@@ -13,6 +14,5 @@ void main()
     vec4 darkgreen = vec4(0.0, 0.13, 0.0, 1.0);
     vec4 lightgreen = vec4(0.5, 1.0, 0.5, 1.0);
     // interplate between two colors based on height
-    finalColor = mix(darkgreen, lightgreen, height+0.2);
-    /* finalColor = texture(perlinNoiseMap,fragTexCoord); */
+    finalColor = mix(texture(grass,fragTexCoord), mix(darkgreen, lightgreen, height+0.2), 0.6);
 }

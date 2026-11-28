@@ -151,6 +151,7 @@ int main(void) {
   // seed for random terrain height
   srand((uint)time(NULL));
 
+  SetConfigFlags(FLAG_MSAA_4X_HINT);
   InitWindow(screenWidth, screenHeight, "DEER/parade");
   // initialize camera variables to pass to UpdateCameraFPS()
   Camera camera = {0};
