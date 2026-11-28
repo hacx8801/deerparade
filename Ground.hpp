@@ -25,11 +25,11 @@ private:
   std::unique_ptr<Model> planeModel;
   std::unique_ptr<Mesh> planeMesh;
   std::unique_ptr<Image> perlinNoiseImage;
+  std::shared_ptr<Texture2D> grass;
   std::vector<float> planeHeights;
   int meshWidth;
   int meshLength;
   Texture2D texture;
-  Texture2D grass;
   Vector3 origin;
 
   int leastGreaterTwo(int n);

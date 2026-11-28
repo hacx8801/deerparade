@@ -25,10 +25,11 @@ Ground::Ground(Shader &shader, int width, int length, int xIdx, int zIdx,
   assert(IsImageValid(*perlinNoiseImage));
 
   // load grass texture
-  Image grassImg = LoadImage("./grass.png");
-  grass = LoadTextureFromImage(grassImg);
-
-  UnloadImage(grassImg);
+  if (grass == nullptr || !IsTextureValid(*grass)) {
+    Image grassImg = LoadImage("./grass.png");
+    grass = std::make_shared<Texture2D>(LoadTextureFromImage(grassImg));
+    UnloadImage(grassImg);
+  }
 
   this->initModel(*perlinNoiseImage);
   this->initPlaneHeights(*perlinNoiseImage, 10);
@@ -90,11 +91,11 @@ void Ground::draw() const {
 
   BeginShaderMode(shader);
   rlActiveTextureSlot(1);
-  rlEnableTexture(grass.id);
+  rlEnableTexture(grass->id);
 
   int loc = GetShaderLocation(shader, "grass");
 
-  SetShaderValueTexture(shader, loc, grass);
+  SetShaderValueTexture(shader, loc, *grass);
 
   DrawModel(*(this->planeModel), this->origin, 1.0f, (Color){0, 0, 0});
 
